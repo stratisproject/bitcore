@@ -1,8 +1,8 @@
 {
-  "name": "bitcore-lib",
+  "name": "bitcore-lib-cirrus",
   "version": "8.25.10",
-  "description": "A pure and powerful JavaScript Bitcoin library.",
-  "author": "BitPay <dev@bitpay.com>",
+  "description": "A pure and powerful JavaScript Cirrus library.",
+  "author": "Stratis",
   "main": "index.js",
   "scripts": {
     "test": "gulp test",
@@ -29,7 +29,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/bitpay/bitcore/tree/master/packages/bitcore-lib"
+    "url": "https://github.com/stratisproject/bitcore-stratis/tree/master/packages/bitcore-lib-cirrus"
   },
   "browser": {
     "request": "browser-request"
