@@ -9,6 +9,8 @@ import { BaseP2PWorker } from '../../services/p2p';
 import { SpentHeightIndicators } from '../../types/Coin';
 import { BitcoinBlockType, BitcoinHeaderObj, BitcoinTransaction } from '../../types/namespaces/Bitcoin';
 import { wait } from '../../utils/wait';
+import { BlockHeader } from 'bitcore-lib-strax';
+import GetProvheadersMessage from './getprovhdr';
 
 export class StraxP2PWorker extends BaseP2PWorker<IBtcBlock> {
   protected bitcoreLib: any;
@@ -40,8 +42,11 @@ export class StraxP2PWorker extends BaseP2PWorker<IBtcBlock> {
       [this.bitcoreP2p.Inventory.TYPE.TX]: 100000
     };
     this.messages = new this.bitcoreP2p.Messages({
-      network: this.bitcoreLib.Networks.get(this.network)
+      network: this.bitcoreLib.Networks.get(this.network),
+      protocolVersion: 70012,
+      BlockHeader: BlockHeader
     });
+    this.messages.add('getprovhdr', 'GetProvHdr', GetProvheadersMessage);
     this.pool = new this.bitcoreP2p.Pool({
       addrs: this.chainConfig.trustedPeers.map(peer => {
         return {
