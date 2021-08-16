@@ -31,6 +31,10 @@ var BlockHeader = function BlockHeader(arg) {
   this.timestamp = info.time;
   this.bits = info.bits;
   this.nonce = info.nonce;
+  this.signature = info.signature;
+  this.hashStateRoot = info.hashStateRoot;
+  this.receiptRoot = info.receiptRoot;
+  this.logsBloom = info.logsBloom;
 
   if (info.hash) {
     $.checkState(
@@ -83,7 +87,11 @@ BlockHeader._fromObject = function _fromObject(data) {
     time: data.time,
     timestamp: data.time,
     bits: data.bits,
-    nonce: data.nonce
+    nonce: data.nonce,
+    signature: data.signature,
+    hashStateRoot: data.hashStateRoot,
+    receiptRoot: data.receiptRoot,
+    logsBloom: data.logsBloom
   };
   return info;
 };
@@ -142,6 +150,10 @@ BlockHeader._fromBufferReader = function _fromBufferReader(br) {
   info.time = br.readUInt32LE();
   info.bits = br.readUInt32LE();
   info.nonce = br.readUInt32LE();
+  info.signature = br.readVarLengthBuffer();
+  info.hashStateRoot = br.read(32);
+  info.receiptRoot = br.read(32);
+  info.logsBloom = br.read(256);
   return info;
 };
 
@@ -165,7 +177,11 @@ BlockHeader.prototype.toObject = BlockHeader.prototype.toJSON = function toObjec
     merkleRoot: BufferUtil.reverse(this.merkleRoot).toString('hex'),
     time: this.time,
     bits: this.bits,
-    nonce: this.nonce
+    nonce: this.nonce,
+    signature: this.signature,
+    hashStateRoot: this.hashStateRoot,
+    receiptRoot: this.receiptRoot,
+    logsBloom: this.logsBloom
   };
 };
 
@@ -184,6 +200,23 @@ BlockHeader.prototype.toString = function toString() {
 };
 
 /**
+ * @returns {Buffer} - A Buffer of the BlockHeader containing only the data used for hashing.
+ */
+ CirrusBlockHeader.prototype.toHashingBuffer = function toHashingBuffer() {
+  var bw = new BufferWriter();
+  bw.writeInt32LE(this.version);
+  bw.write(this.prevHash);
+  bw.write(this.merkleRoot);
+  bw.writeUInt32LE(this.time);
+  bw.writeUInt32LE(this.bits);
+  bw.writeUInt32LE(this.nonce);
+  bw.write(this.hashStateRoot);
+  bw.write(this.receiptRoot);
+  bw.write(this.logsBloom);
+  return bw.concat();
+}
+
+/**
  * @param {BufferWriter} - An existing instance BufferWriter
  * @returns {BufferWriter} - An instance of BufferWriter representation of the BlockHeader
  */
@@ -197,6 +230,11 @@ BlockHeader.prototype.toBufferWriter = function toBufferWriter(bw) {
   bw.writeUInt32LE(this.time);
   bw.writeUInt32LE(this.bits);
   bw.writeUInt32LE(this.nonce);
+  bw.writeVarintNum(this.signature.length)
+  bw.write(this.signature);
+  bw.write(this.hashStateRoot);
+  bw.write(this.receiptRoot);
+  bw.write(this.logsBloom);
   return bw;
 };
 
@@ -235,7 +273,7 @@ BlockHeader.prototype.getDifficulty = function getDifficulty() {
  * @returns {Buffer} - The little endian hash buffer of the header
  */
 BlockHeader.prototype._getHash = function hash() {
-  var buf = this.toBuffer();
+  var buf = this.toHashingBuffer();
   return Hash.sha256sha256(buf);
 };
 
@@ -284,7 +322,7 @@ BlockHeader.prototype.validProofOfWork = function validProofOfWork() {
  * @returns {string} - A string formatted for the console
  */
 BlockHeader.prototype.inspect = function inspect() {
-  return '<BlockHeader ' + this.id + '>';
+  return '<CirrusBlockHeader ' + this.id + '>';
 };
 
 BlockHeader.Constants = {
