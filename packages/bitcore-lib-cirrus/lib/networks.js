@@ -139,21 +139,17 @@ function removeNetwork(network) {
 addNetwork({
   name: 'livenet',
   alias: 'mainnet',
-  pubkeyhash: 0x00,
-  privatekey: 0x80,
-  scripthash: 0x05,
-  bech32prefix: 'bc',
-  xpubkey: 0x0488b21e,
-  xprivkey: 0x0488ade4,
-  networkMagic: 0xf9beb4d9,
-  port: 8333,
+  pubkeyhash: 0x1C,
+  privatekey: 0xEF,
+  scripthash: 0x58,
+  bech32prefix: 'tb',
+  xpubkey: 0x043587cf,
+  xprivkey: 0x04358394,
+  networkMagic: 0xAC572352,
+  port: 16179,
   dnsSeeds: [
-    'seed.bitcoin.sipa.be',
-    'dnsseed.bluematt.me',
-    'dnsseed.bitcoin.dashjr.org',
-    'seed.bitcoinstats.com',
-    'seed.bitnodes.io',
-    'bitseed.xf2.org'
+    'cirrusmain1.stratisnetwork.com',
+    'cirrusmain1.stratisnetwork.com'
   ]
 });
 
