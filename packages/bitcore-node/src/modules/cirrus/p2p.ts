@@ -11,6 +11,8 @@ import { BitcoinBlockType, BitcoinHeaderObj, BitcoinTransaction } from '../../ty
 import { wait } from '../../utils/wait';
 import { BlockHeader } from 'bitcore-lib-cirrus';
 import PoahdrMessage from './poahdr';
+import GetProvheadersMessage from './getprovhdr';
+import SendheadersMessage from './sendheaders';
 
 export class CirrusP2PWorker extends BaseP2PWorker<IBtcBlock> {
   protected bitcoreLib: any;
@@ -46,6 +48,8 @@ export class CirrusP2PWorker extends BaseP2PWorker<IBtcBlock> {
       protocolVersion: 80000,
       BlockHeader: BlockHeader
     });
+    this.messages.add('getprovhdr', 'GetProvHdr', GetProvheadersMessage);
+    this.messages.add('sendheaders', 'SendHeaders', SendheadersMessage);
     this.messages.add('poahdr', 'PoaHdr', PoahdrMessage);
     this.pool = new this.bitcoreP2p.Pool({
       addrs: this.chainConfig.trustedPeers.map(peer => {

@@ -1,7 +1,7 @@
 'use strict';
 
 var inherits = require('util').inherits;
-var bitcore = require('bitcore-lib-strax');
+var bitcore = require('bitcore-lib-cirrus');
 var p2p = require('bitcore-p2p');
 var Message = p2p.Messages.Message;
 var BufferUtil = bitcore.util.buffer;
