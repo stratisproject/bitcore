@@ -154,6 +154,16 @@ export class CirrusP2PWorker extends BaseP2PWorker<IBtcBlock> {
       this.events.emit('headers', message.headers);
     });
 
+    this.pool.on('peerpoahdr', (peer, message) => {
+      logger.debug('peerpoahdr message received', {
+        peer: `${peer.host}:${peer.port}`,
+        chain: this.chain,
+        network: this.network,
+        count: message.headers.length
+      });
+      this.events.emit('headers', message.headers);
+    });
+
     this.pool.on('peerinv', (peer, message) => {
       if (this.isSyncingNode) {
         const filtered = message.inventory.filter(inv => {
@@ -192,6 +202,10 @@ export class CirrusP2PWorker extends BaseP2PWorker<IBtcBlock> {
     let received = false;
     return new Promise<BitcoinHeaderObj[]>(async resolve => {
       this.events.once('headers', headers => {
+        received = true;
+        resolve(headers);
+      });
+      this.events.once('poahdr', headers => {
         received = true;
         resolve(headers);
       });
