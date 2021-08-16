@@ -54,7 +54,8 @@ class ModuleManager extends BaseModule {
     DOGE: './dogecoin',
     LTC: './litecoin',
     XRP: './ripple',
-    STRAX: './strax'
+    STRAX: './strax',
+    CRS: './cirrus'
   };
 
   loadConfigured() {

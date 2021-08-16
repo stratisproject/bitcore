@@ -10,5 +10,9 @@ module.exports = {
   STRAX: {
     lib: require('bitcore-lib-stratis'),
     p2p: require('bitcore-p2p')
+  },
+  CRS: {
+    lib: require('bitcore-lib-cirrus'),
+    p2p: require('bitcore-p2p')
   }
 };
