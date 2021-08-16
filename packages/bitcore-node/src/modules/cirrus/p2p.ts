@@ -9,7 +9,7 @@ import { BaseP2PWorker } from '../../services/p2p';
 import { SpentHeightIndicators } from '../../types/Coin';
 import { BitcoinBlockType, BitcoinHeaderObj, BitcoinTransaction } from '../../types/namespaces/Bitcoin';
 import { wait } from '../../utils/wait';
-import { BlockHeader } from 'bitcore-lib-cirrus';
+import { BlockHeader, Block } from 'bitcore-lib-cirrus';
 import PoahdrMessage from './poahdr';
 import GetProvheadersMessage from './getprovhdr';
 import SendheadersMessage from './sendheaders';
@@ -46,7 +46,8 @@ export class CirrusP2PWorker extends BaseP2PWorker<IBtcBlock> {
     this.messages = new this.bitcoreP2p.Messages({
       network: this.bitcoreLib.Networks.get(this.network),
       protocolVersion: 80000,
-      BlockHeader: BlockHeader
+      BlockHeader: BlockHeader,
+      Block: Block
     });
     this.messages.add('getprovhdr', 'GetProvHdr', GetProvheadersMessage);
     this.messages.add('sendheaders', 'SendHeaders', SendheadersMessage);
