@@ -202,7 +202,7 @@ BlockHeader.prototype.toString = function toString() {
 /**
  * @returns {Buffer} - A Buffer of the BlockHeader containing only the data used for hashing.
  */
- CirrusBlockHeader.prototype.toHashingBuffer = function toHashingBuffer() {
+ BlockHeader.prototype.toHashingBuffer = function toHashingBuffer() {
   var bw = new BufferWriter();
   bw.writeInt32LE(this.version);
   bw.write(this.prevHash);
