@@ -10,6 +10,7 @@ import { SpentHeightIndicators } from '../../types/Coin';
 import { BitcoinBlockType, BitcoinHeaderObj, BitcoinTransaction } from '../../types/namespaces/Bitcoin';
 import { wait } from '../../utils/wait';
 import { BlockHeader } from 'bitcore-lib-cirrus';
+import PoahdrMessage from './poahdr';
 
 export class CirrusP2PWorker extends BaseP2PWorker<IBtcBlock> {
   protected bitcoreLib: any;
@@ -45,6 +46,7 @@ export class CirrusP2PWorker extends BaseP2PWorker<IBtcBlock> {
       protocolVersion: 70012,
       BlockHeader: BlockHeader
     });
+    this.messages.add('poahdr', 'PoaHdr', PoahdrMessage);
     this.pool = new this.bitcoreP2p.Pool({
       addrs: this.chainConfig.trustedPeers.map(peer => {
         return {
