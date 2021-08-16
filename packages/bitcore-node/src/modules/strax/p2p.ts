@@ -11,6 +11,7 @@ import { BitcoinBlockType, BitcoinHeaderObj, BitcoinTransaction } from '../../ty
 import { wait } from '../../utils/wait';
 import { BlockHeader } from 'bitcore-lib-strax';
 import GetProvheadersMessage from './getprovhdr';
+import SendheadersMessage from './sendheaders';
 
 export class StraxP2PWorker extends BaseP2PWorker<IBtcBlock> {
   protected bitcoreLib: any;
@@ -47,6 +48,7 @@ export class StraxP2PWorker extends BaseP2PWorker<IBtcBlock> {
       BlockHeader: BlockHeader
     });
     this.messages.add('getprovhdr', 'GetProvHdr', GetProvheadersMessage);
+    this.messages.add('sendheaders', 'SendHeaders', SendheadersMessage);
     this.pool = new this.bitcoreP2p.Pool({
       addrs: this.chainConfig.trustedPeers.map(peer => {
         return {
