@@ -1,0 +1,17 @@
+{
+    "bitcoreNode": {
+        "chains": {
+            "CRS": {
+                "cirrusmain": {
+                    "chainSource": "p2p",
+                    "trustedPeers": [
+                        {
+                            "host": "",
+                            "port": 16179
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

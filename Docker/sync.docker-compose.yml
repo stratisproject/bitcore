@@ -1,0 +1,63 @@
+version: '3'
+services:
+    database:
+        image: mongo
+        container_name: mongodb-bitcore
+        volumes:
+          - fileshare:/data/db
+        command: mongod
+        restart: always
+        deploy:
+            resources:
+                limits:
+                    memory: 1g
+                    cpus: '0.5'        
+    
+    bitcore-strax-node:
+        build:
+            context: ../
+            dockerfile: Docker/Dockerfile
+        container_name: bitcore-strax
+        image: bitcorestrax.azurecr.io/bitcore-strax
+        depends_on:
+        - database
+        - cirrus
+        ports:
+        - 3000:3000        
+        environment:
+            - DB_HOST=localhost
+            - DB_PORT=27017
+            - BITCORE_CONFIG_PATH=/config/bitcore.config.local.json
+        volumes:
+            - config:/config
+        restart: always
+        deploy:
+            resources:
+                limits:
+                    memory: 2g
+                    cpus: '1.4'
+
+    cirrus:
+      container_name: cirrus-chain
+      image: bitcorestrax.azurecr.io/cirrus-chain
+      restart: always
+      ports:
+      - 16179:16179
+      deploy:
+       resources:       
+         limits:
+           memory: 3g
+           cpus: '2'
+
+volumes:
+    fileshare:
+        driver: azure_file
+        driver_opts:
+            share_name: bitcorestratisdb
+            storage_account_name: bitcorestratis
+
+    config:
+        driver: azure_file
+        driver_opts:
+            share_name: configs
+            storage_account_name: bitcorestratis

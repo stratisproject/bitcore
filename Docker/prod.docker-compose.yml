@@ -1,0 +1,58 @@
+version: '3'
+services:
+    database:
+        image: mongo
+        container_name: mongodb-bitcore
+        volumes:
+          - fileshare:/data/db
+        command: mongod
+        restart: always
+        deploy:
+            resources:
+                limits:
+                    memory: 1g
+                    cpus: '0.5'        
+    
+    bitcore-strax-node:
+        build:
+            context: ../
+            dockerfile: Docker/Dockerfile
+        container_name: bitcore-strax
+        image: bitcorestrax.azurecr.io/bitcore-strax
+        depends_on:
+        - database
+        ports:
+        - 3000:3000        
+        environment:
+            - DB_HOST=localhost
+            - DB_PORT=27017
+            - BITCORE_CONFIG_PATH=/config/bitcore.config.json
+        restart: always
+        deploy:
+            resources:
+                limits:
+                    memory: 4g
+                    cpus: '2'         
+
+    bitcore-wallet-service:
+        build:
+            context: ../
+            dockerfile: Docker/bws.Dockerfile
+        container_name: bitcore-wallet-service-stratis
+        image: bitcorestrax.azurecr.io/bws-stratis
+        depends_on:
+        - database
+        - bitcore-strax-node
+        ports:
+        - 3032:3032
+        environment:
+            - DB_HOST=localhost
+            - DB_PORT=27017
+        restart: always
+
+volumes:
+    fileshare:
+        driver: azure_file
+        driver_opts:
+            share_name: bitcorestratisdb
+            storage_account_name: bitcorestratis

@@ -1,0 +1,13 @@
+version: '3'
+services:
+    cirrus:
+      container_name: strax-chain
+      image: bitcorestrax.azurecr.io/strax-chain
+      ports:
+      - 17105:17105
+      restart: always
+      deploy:
+       resources:       
+         limits:
+           memory: 4g
+           cpus: '2'

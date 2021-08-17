@@ -1,0 +1,13 @@
+version: '3'
+services:
+    cirrus:
+      container_name: cirrus-chain
+      image: bitcorestrax.azurecr.io/cirrus-chain
+      ports:
+      - 16179:16179
+      restart: always
+      deploy:
+       resources:       
+         limits:
+           memory: 4g
+           cpus: '2'

@@ -1,0 +1,45 @@
+version: '3'
+services:
+    database:
+        image: mongo
+        container_name: mongodb-bitcore
+        ports:
+        - 27018:27017 # Expose 27018 for access from host, otherwise remove
+        volumes:
+          - ~/data:/data/db
+        command: mongod
+        restart: always
+    
+    bitcore-strax-node:
+        build:
+            context: ../
+            dockerfile: Docker/Dockerfile
+        container_name: bitcore-strax
+        image: bitcorestrax.azurecr.io/bitcore-strax
+        links:
+        - database
+        ports:
+        - 3000:3000
+        volumes:
+        - ./config:/config
+        environment:
+            - DB_HOST=database
+            - DB_PORT=27017
+            - BITCORE_CONFIG_PATH=/config/bitcore.config.json
+        restart: always
+
+    bitcore-wallet-service:
+        build:
+            context: ../
+            dockerfile: Docker/bws.Dockerfile
+        container_name: bitcore-wallet-service-stratis
+        image: bitcorestrax.azurecr.io/bws-stratis
+        links:
+        - database
+        - bitcore-strax-node
+        ports:
+        - 3032:3032
+        environment:
+            - DB_HOST=database
+            - DB_PORT=27017
+        restart: always
