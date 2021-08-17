@@ -17,6 +17,12 @@ COPY  ./packages/bitcore-build/package-lock.json ./packages/bitcore-build/packag
 COPY  ./packages/bitcore-lib-cash/package.json ./packages/bitcore-lib-cash/package.json
 COPY  ./packages/bitcore-lib-cash/package-lock.json ./packages/bitcore-lib-cash/package-lock.json
 
+COPY  ./packages/bitcore-lib-cirrus/package.json ./packages/bitcore-lib-cirrus/package.json
+COPY  ./packages/bitcore-lib-cirrus/package-lock.json ./packages/bitcore-lib-cirrus/package-lock.json
+
+COPY  ./packages/bitcore-lib-strax/package.json ./packages/bitcore-lib-strax/package.json
+COPY  ./packages/bitcore-lib-strax/package-lock.json ./packages/bitcore-lib-strax/package-lock.json
+
 COPY  ./packages/bitcore-lib/package.json ./packages/bitcore-lib/package.json
 COPY  ./packages/bitcore-lib/package-lock.json ./packages/bitcore-lib/package-lock.json
 
