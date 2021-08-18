@@ -21,7 +21,7 @@ bitcore.crypto.BN = require('./lib/crypto/bn');
 bitcore.crypto.ECDSA = require('./lib/crypto/ecdsa');
 bitcore.crypto.Hash = require('./lib/crypto/hash');
 bitcore.crypto.Random = require('./lib/crypto/random');
-bitcore.crypto.Point = require('./lib/crypto/point');
+bitcore.crypto.Point = require('bitcore-lib').crypto.point;
 bitcore.crypto.Signature = require('./lib/crypto/signature');
 
 // encoding

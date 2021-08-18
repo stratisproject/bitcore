@@ -9,7 +9,7 @@ var Base58Check = require('./encoding/base58check');
 var Hash = require('./crypto/hash');
 var HDPrivateKey = require('./hdprivatekey');
 var Network = require('./networks');
-var Point = require('./crypto/point');
+var Point = require('bitcore-lib').crypto.point;
 var PublicKey = require('./publickey');
 
 var bitcoreErrors = require('./errors');

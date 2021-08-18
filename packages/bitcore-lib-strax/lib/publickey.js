@@ -1,7 +1,7 @@
 'use strict';
 
 var BN = require('./crypto/bn');
-var Point = require('./crypto/point');
+var Point = require('bitcore-lib').crypto.point;
 var Hash = require('./crypto/hash');
 var JSUtil = require('./util/js');
 var Network = require('./networks');
