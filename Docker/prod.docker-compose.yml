@@ -13,12 +13,12 @@ services:
                     memory: 1g
                     cpus: '0.5'        
     
-    bitcore-strax-node:
+    bitcore-node-stratis:
         build:
             context: ../
             dockerfile: Docker/Dockerfile
-        container_name: bitcore-strax
-        image: bitcorestrax.azurecr.io/bitcore-strax
+        container_name: bitcore-node-stratis
+        image: bitcorestrax.azurecr.io/bitcore-node-stratis
         depends_on:
         - database
         ports:
@@ -26,33 +26,48 @@ services:
         environment:
             - DB_HOST=localhost
             - DB_PORT=27017
-            - BITCORE_CONFIG_PATH=/config/bitcore.config.json
+            - BITCORE_CONFIG_PATH=/config/bitcore.config.new.json
+        volumes:
+          - config:/config
         restart: always
         deploy:
             resources:
                 limits:
-                    memory: 4g
-                    cpus: '2'         
+                    memory: 2g
+                    cpus: '2' 
 
-    bitcore-wallet-service:
+    bitcore-wallet-service-stratis:
         build:
             context: ../
             dockerfile: Docker/bws.Dockerfile
         container_name: bitcore-wallet-service-stratis
-        image: bitcorestrax.azurecr.io/bws-stratis
+        image: bitcorestrax.azurecr.io/bitcore-wallet-service-stratis
         depends_on:
         - database
-        - bitcore-strax-node
+        - bitcore-node-stratis
         ports:
         - 3032:3032
         environment:
             - DB_HOST=localhost
             - DB_PORT=27017
+        volumes:
+          - config:/config
         restart: always
+        deploy:
+            resources:
+                limits:
+                    memory: 1g
+                    cpus: '1'
 
 volumes:
     fileshare:
         driver: azure_file
         driver_opts:
-            share_name: bitcorestratisdb
+            share_name: bitcorestratisdb_prod
+            storage_account_name: bitcorestratis
+
+    config:
+        driver: azure_file
+        driver_opts:
+            share_name: configs
             storage_account_name: bitcorestratis

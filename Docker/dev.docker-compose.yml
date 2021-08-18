@@ -26,7 +26,7 @@ services:
         environment:
             - DB_HOST=localhost
             - DB_PORT=27017
-            - BITCORE_CONFIG_PATH=/config/bitcore.config.new.json
+            - BITCORE_CONFIG_PATH=/config/bitcore.config.json
         volumes:
           - config:/config
         restart: always
@@ -50,6 +50,9 @@ services:
         environment:
             - DB_HOST=localhost
             - DB_PORT=27017
+            - BWS_CONFIG_PATH=/config/bws.config.js
+        volumes:
+          - config:/config
         restart: always
         deploy:
             resources:
