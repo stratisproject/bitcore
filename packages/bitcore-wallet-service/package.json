@@ -82,6 +82,7 @@
     "typescript-eslint-parser": "^22.0.0"
   },
   "scripts": {
+    "bws": "npm run tsc && node ts_build/bws.js",
     "start": "npm run clean && npm run tsc && ./start.sh",
     "stop": "./stop.sh",
     "coverage": "npm run compile && ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --reporter spec test",
