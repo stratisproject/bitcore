@@ -12,6 +12,7 @@
     "insight": "cd ./packages/insight && npm start",
     "node": "cd packages/bitcore-node && npm start",
     "bws": "cd packages/bitcore-wallet-service && npm start",
+    "wallet": "npm run compile && cd packages/mobile-wallet && npm run start",
     "compile": "./node_modules/.bin/lerna run compile",
     "lint": "lerna run lint",
     "fix": "lerna run fix",
