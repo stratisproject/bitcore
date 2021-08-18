@@ -15,7 +15,9 @@ const providers = {
   ETHMULTISIG: new ETHMULTISIGTxProvider(),
   XRP: new XRPTxProvider(),
   DOGE: new DOGETxProvider(),
-  LTC: new LTCTxProvider()
+  LTC: new LTCTxProvider(),
+  STRAX: new BTCTxProvider(), // TODO implement
+  CRS: new BTCTxProvider()
 };
 
 export class TransactionsProxy {

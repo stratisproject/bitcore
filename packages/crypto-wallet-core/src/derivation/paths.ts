@@ -27,6 +27,14 @@ export const Paths = {
     livenet: "m/44'/2'/",
     testnet: "m/44'/2'/"
   },
+  STRAX: {
+    mainnet: "m/44'/105105'/",
+    livenet: "m/44'/105105'/"
+  },
+  CRS: {
+    mainnet: "m/44'/401'/",
+    livenet: "m/44'/401'/"
+  },
   default: {
     testnet: "m/44'/1'/"
   }
