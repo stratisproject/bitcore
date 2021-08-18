@@ -5,6 +5,8 @@ import {
   BitcoreLibCash,
   BitcoreLibDoge,
   BitcoreLibLtc,
+  BitcoreLibStrax,
+  BitcoreLibCirrus,
   Deriver,
   Transactions
 } from 'crypto-wallet-core';
@@ -24,7 +26,9 @@ const Bitcore_ = {
   eth: Bitcore,
   xrp: Bitcore,
   doge: BitcoreLibDoge,
-  ltc: BitcoreLibLtc
+  ltc: BitcoreLibLtc,
+  strax: BitcoreLibStrax,
+  crs: BitcoreLibCirrus
 };
 const PrivateKey = Bitcore.PrivateKey;
 const PublicKey = Bitcore.PublicKey;

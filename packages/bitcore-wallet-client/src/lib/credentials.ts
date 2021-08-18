@@ -210,6 +210,10 @@ export class Credentials {
         coin = '3';
       } else if (this.coin == 'ltc') {
         coin = '2';
+      } else if (this.coin == 'strax') {
+        coin = '105105';
+      } else if (this.coin == 'crs') { 
+        coin = '401';
       } else {
         throw new Error('unknown coin: ' + this.coin);
       }
