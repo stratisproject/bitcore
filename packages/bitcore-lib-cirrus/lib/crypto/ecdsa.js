@@ -1,7 +1,7 @@
 'use strict';
 
 var BN = require('./bn');
-var Point = require('bitcore-lib').crypto.point;
+var Point = require('./point');
 var Signature = require('./signature');
 var PublicKey = require('../publickey');
 var Random = require('./random');

@@ -11,7 +11,7 @@ var Base58 = require('./encoding/base58');
 var Base58Check = require('./encoding/base58check');
 var Hash = require('./crypto/hash');
 var Network = require('./networks');
-var Point = require('bitcore-lib').crypto.point;
+var Point = require('./crypto/point');
 var PrivateKey = require('./privatekey');
 var Random = require('./crypto/random');
 
