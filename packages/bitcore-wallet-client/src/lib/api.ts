@@ -598,8 +598,10 @@ export class API extends EventEmitter {
   }
 
   static _buildSecret(walletId, walletPrivKey, coin, network) {
+    const bitcore = Bitcore_[coin];
+
     if (_.isString(walletPrivKey)) {
-      walletPrivKey = Bitcore.PrivateKey.fromString(walletPrivKey);
+      walletPrivKey = bitcore.PrivateKey.fromString(walletPrivKey);
     }
     var widHex = Buffer.from(walletId.replace(/-/g, ''), 'hex');
     var widBase58 = new Bitcore.encoding.Base58(widHex).toString();
@@ -628,12 +630,13 @@ export class API extends EventEmitter {
     try {
       var secretSplit = split(secret, [22, 74, 75]);
       var widBase58 = secretSplit[0].replace(/0/g, '');
+      var coin = secretSplit[3] || 'btc';
+      const bitcore = Bitcore_[coin];
       var widHex = Bitcore.encoding.Base58.decode(widBase58).toString('hex');
       var walletId = split(widHex, [8, 12, 16, 20]).join('-');
 
-      var walletPrivKey = Bitcore.PrivateKey.fromString(secretSplit[1]);
+      var walletPrivKey = bitcore.PrivateKey.fromString(secretSplit[1]);
       var networkChar = secretSplit[2];
-      var coin = secretSplit[3] || 'btc';
 
       return {
         walletId,
@@ -917,7 +920,9 @@ export class API extends EventEmitter {
       );
     }
 
-    var walletPrivKey = opts.walletPrivKey || new Bitcore.PrivateKey();
+    const bitcore = Bitcore_[coin];
+
+    var walletPrivKey = opts.walletPrivKey || new bitcore.PrivateKey();
 
     var c = this.credentials;
     c.addWalletPrivateKey(walletPrivKey.toString());
@@ -927,7 +932,7 @@ export class API extends EventEmitter {
       name: encWalletName,
       m,
       n,
-      pubKey: new Bitcore.PrivateKey(walletPrivKey).toPublicKey().toString(),
+      pubKey: new bitcore.PrivateKey(walletPrivKey).toPublicKey().toString(),
       coin,
       network,
       singleAddress: !!opts.singleAddress,
@@ -1059,9 +1064,11 @@ export class API extends EventEmitter {
           log.info('Wallet is already created');
           return cb();
         }
+        var coin = c.coin;
+        const bitcore = Bitcore_[coin];
 
         var c = this.credentials;
-        var walletPrivKey = Bitcore.PrivateKey.fromString(c.walletPrivKey);
+        var walletPrivKey = bitcore.PrivateKey.fromString(c.walletPrivKey);
         var walletId = c.walletId;
         var useNativeSegwit = c.addressType === Constants.SCRIPT_TYPES.P2WPKH;
         var supportBIP44AndP2PKH =
@@ -1070,7 +1077,6 @@ export class API extends EventEmitter {
           c.walletName || 'recovered wallet',
           c.sharedEncryptingKey
         );
-        var coin = c.coin;
 
         var args = {
           name: encWalletName,
@@ -2297,7 +2303,11 @@ export class API extends EventEmitter {
     );
 
     opts = opts || {};
-    var requestPubKey = new Bitcore.PrivateKey(opts.requestPrivKey)
+    if (!opts.coin) {
+      throw "Need to be able to get the coin here somehow";
+    }
+    const bitcore = Bitcore_[opts.coin]; // TODO does this work?
+    var requestPubKey = new bitcore.PrivateKey(opts.requestPrivKey)
       .toPublicKey()
       .toString();
     var copayerId = this.credentials.copayerId;
@@ -2746,7 +2756,13 @@ export class API extends EventEmitter {
       // Find and merge dup keys.
       let credGroups = _.groupBy(newCrededentials, x => {
         $.checkState(x.xPubKey, 'Failed state: no xPubKey at credentials!');
-        let xpub = new Bitcore.HDPublicKey(x.xPubKey);
+
+        if(!x.coin) {
+          throw "Must check that x has a coin here";
+        }
+
+        const bitcore = Bitcore_[x.coin];
+        let xpub = new bitcore.HDPublicKey(x.xPubKey);
         let fingerPrint = xpub.fingerPrint.toString('hex');
         return fingerPrint;
       });
