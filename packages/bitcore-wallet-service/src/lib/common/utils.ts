@@ -10,7 +10,9 @@ const Bitcore_ = {
   btc: Bitcore,
   bch: require('bitcore-lib-cash'),
   doge: require('bitcore-lib-doge'),
-  ltc: require('bitcore-lib-ltc')
+  ltc: require('bitcore-lib-ltc'),
+  strax: require('bitcore-lib-strax'),
+  crs: require('bitcore-lib-cirrus')
 };
 
 export class Utils {
