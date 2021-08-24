@@ -1,10 +1,10 @@
 'use strict';
 
-var bitcore = module.exports;
+var cirruscore = module.exports;
 
 // module information
-bitcore.version = 'v' + require('./package.json').version;
-bitcore.versionGuard = function(version) {
+cirruscore.version = 'v' + require('./package.json').version;
+cirruscore.versionGuard = function(version) {
   if (version !== undefined) {
     var message = 'More than one instance of bitcore-lib-cirrus found. ' +
       'Please make sure to require bitcore-lib-cirrus and check that submodules do' +
@@ -12,59 +12,59 @@ bitcore.versionGuard = function(version) {
     throw new Error(message);
   }
 };
-bitcore.versionGuard(global._cirruscore);
-global._cirruscore = bitcore.version;
+cirruscore.versionGuard(global._cirruscore);
+global._cirruscore = cirruscore.version;
 
 // crypto
-bitcore.crypto = {};
-bitcore.crypto.BN = require('./lib/crypto/bn');
-bitcore.crypto.ECDSA = require('./lib/crypto/ecdsa');
-bitcore.crypto.Hash = require('./lib/crypto/hash');
-bitcore.crypto.Random = require('./lib/crypto/random');
-bitcore.crypto.Point = require('./lib/crypto/point');
-bitcore.crypto.Signature = require('./lib/crypto/signature');
+cirruscore.crypto = {};
+cirruscore.crypto.BN = require('./lib/crypto/bn');
+cirruscore.crypto.ECDSA = require('./lib/crypto/ecdsa');
+cirruscore.crypto.Hash = require('./lib/crypto/hash');
+cirruscore.crypto.Random = require('./lib/crypto/random');
+cirruscore.crypto.Point = require('./lib/crypto/point');
+cirruscore.crypto.Signature = require('./lib/crypto/signature');
 
 // encoding
-bitcore.encoding = {};
-bitcore.encoding.Base58 = require('./lib/encoding/base58');
-bitcore.encoding.Base58Check = require('./lib/encoding/base58check');
-bitcore.encoding.BufferReader = require('./lib/encoding/bufferreader');
-bitcore.encoding.BufferWriter = require('./lib/encoding/bufferwriter');
-bitcore.encoding.Varint = require('./lib/encoding/varint');
+cirruscore.encoding = {};
+cirruscore.encoding.Base58 = require('./lib/encoding/base58');
+cirruscore.encoding.Base58Check = require('./lib/encoding/base58check');
+cirruscore.encoding.BufferReader = require('./lib/encoding/bufferreader');
+cirruscore.encoding.BufferWriter = require('./lib/encoding/bufferwriter');
+cirruscore.encoding.Varint = require('./lib/encoding/varint');
 
 // utilities
-bitcore.util = {};
-bitcore.util.buffer = require('./lib/util/buffer');
-bitcore.util.js = require('./lib/util/js');
-bitcore.util.preconditions = require('./lib/util/preconditions');
+cirruscore.util = {};
+cirruscore.util.buffer = require('./lib/util/buffer');
+cirruscore.util.js = require('./lib/util/js');
+cirruscore.util.preconditions = require('./lib/util/preconditions');
 
 // errors thrown by the library
-bitcore.errors = require('./lib/errors');
+cirruscore.errors = require('./lib/errors');
 
 // main bitcoin library
-bitcore.Address = require('./lib/address');
-bitcore.Block = require('./lib/block');
-bitcore.MerkleBlock = require('./lib/block/merkleblock');
-bitcore.BlockHeader = require('./lib/block/blockheader');
-bitcore.HDPrivateKey = require('./lib/hdprivatekey.js');
-bitcore.HDPublicKey = require('./lib/hdpublickey.js');
-bitcore.Message = require('./lib/message');
-bitcore.Networks = require('./lib/networks');
-bitcore.Opcode = require('./lib/opcode');
-bitcore.PrivateKey = require('./lib/privatekey');
-bitcore.PublicKey = require('./lib/publickey');
-bitcore.Script = require('./lib/script');
-bitcore.Transaction = require('./lib/transaction');
-bitcore.URI = require('./lib/uri');
-bitcore.Unit = require('./lib/unit');
+cirruscore.Address = require('./lib/address');
+cirruscore.Block = require('./lib/block');
+cirruscore.MerkleBlock = require('./lib/block/merkleblock');
+cirruscore.BlockHeader = require('./lib/block/blockheader');
+cirruscore.HDPrivateKey = require('./lib/hdprivatekey.js');
+cirruscore.HDPublicKey = require('./lib/hdpublickey.js');
+cirruscore.Message = require('./lib/message');
+cirruscore.Networks = require('./lib/networks');
+cirruscore.Opcode = require('./lib/opcode');
+cirruscore.PrivateKey = require('./lib/privatekey');
+cirruscore.PublicKey = require('./lib/publickey');
+cirruscore.Script = require('./lib/script');
+cirruscore.Transaction = require('./lib/transaction');
+cirruscore.URI = require('./lib/uri');
+cirruscore.Unit = require('./lib/unit');
 
 // dependencies, subject to change
-bitcore.deps = {};
-bitcore.deps.bnjs = require('bn.js');
-bitcore.deps.bs58 = require('bs58');
-bitcore.deps.Buffer = Buffer;
-bitcore.deps.elliptic = require('elliptic');
-bitcore.deps._ = require('lodash');
+cirruscore.deps = {};
+cirruscore.deps.bnjs = require('bn.js');
+cirruscore.deps.bs58 = require('bs58');
+cirruscore.deps.Buffer = Buffer;
+cirruscore.deps.elliptic = require('elliptic');
+cirruscore.deps._ = require('lodash');
 
 // Internal usage, exposed for testing/advanced tweaking
-bitcore.Transaction.sighash = require('./lib/transaction/sighash');
+cirruscore.Transaction.sighash = require('./lib/transaction/sighash');
