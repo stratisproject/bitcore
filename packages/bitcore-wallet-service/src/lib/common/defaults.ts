@@ -103,6 +103,20 @@ module.exports = {
         nbBlocks: 2,
         defaultValue: 1000
       }
+    ],
+    strax: [
+      {
+        name: 'normal',
+        nbBlocks: 2,
+        defaultValue: 1000
+      }
+    ],
+    crs: [
+      {
+        name: 'normal',
+        nbBlocks: 2,
+        defaultValue: 1000
+      }
     ]
   },
 

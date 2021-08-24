@@ -251,7 +251,17 @@ export class Utils {
             new Bitcore_['ltc'].Address(address);
             return 'ltc';
           } catch (e) {
-            return;
+            try {
+              new Bitcore_['strax'].Address(address);
+              return 'strax';
+            } catch (e) {
+              try {
+                new Bitcore_['crs'].Address(address);
+                return 'crs';
+              } catch (e) {
+                return;
+              }
+            }
           }
         }
       }

@@ -245,7 +245,9 @@ export class EmailService {
       eth: 'ETH',
       xrp: 'XRP',
       doge: 'DOGE',
-      ltc: 'LTC'
+      ltc: 'LTC',
+      strax: 'STRAX',
+      crs: 'CRS'
     };
 
     const data = _.cloneDeep(notification.data);

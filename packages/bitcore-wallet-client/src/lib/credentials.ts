@@ -318,7 +318,9 @@ export class Credentials {
       (this.coin === 'btc' ||
         this.coin === 'bch' ||
         this.coin === 'doge' ||
-        this.coin === 'ltc') &&
+        this.coin === 'ltc' ||
+        this.coin === 'strax' ||
+        this.coin === 'crs') &&
       (!this.publicKeyRing || this.publicKeyRing.length != this.n)
     )
       return false;
