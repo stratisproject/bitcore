@@ -10,8 +10,8 @@ services:
         deploy:
             resources:
                 limits:
-                    memory: 1g
-                    cpus: '1'
+                    memory: 2g
+                    cpus: '1.4'
     
     bitcore-node-stratis:
         build:
@@ -33,7 +33,7 @@ services:
         deploy:
             resources:
                 limits:
-                    memory: 2g
+                    memory: 3g
                     cpus: '2'        
 
     bitcore-wallet-service-stratis:
