@@ -344,7 +344,7 @@ HDPublicKey.prototype._buildFromBuffers = function(arg) {
       throw new errors.InvalidB58Checksum(concat, checksum);
     }
   }
-  var network = Network.get(BufferUtil.integerFromBuffer(arg.version));
+  var network = Network.get(BufferUtil.integerFromBuffer(arg.version)) || Network.defaultNetwork;
 
   var xpubkey;
   xpubkey = Base58Check.encode(BufferUtil.concat(sequence));
