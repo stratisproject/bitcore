@@ -1,7 +1,7 @@
 import { BitcoinBlockStorage } from '../../../models/block';
-import { InternalStateProvider } from '../internal/internal';
+import { StratisStateProvider } from "../StratisStateProvider";
 
-export class StraxStateProvider extends InternalStateProvider {
+export class StraxStateProvider extends StratisStateProvider {
   constructor(chain: string = 'STRAX') {
     super(chain);
   }

@@ -1,7 +1,7 @@
 import { BitcoinBlockStorage } from '../../../models/block';
-import { InternalStateProvider } from '../internal/internal';
+import { StratisStateProvider } from '../StratisStateProvider';
 
-export class CirrusStateProvider extends InternalStateProvider {
+export class CirrusStateProvider extends StratisStateProvider {
   constructor(chain: string = 'CRS') {
     super(chain);
   }
