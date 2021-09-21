@@ -108,14 +108,14 @@ module.exports = {
       {
         name: 'normal',
         nbBlocks: 2,
-        defaultValue: 1000
+        defaultValue: 10000
       }
     ],
     crs: [
       {
         name: 'normal',
         nbBlocks: 2,
-        defaultValue: 1000
+        defaultValue: 10000
       }
     ]
   },

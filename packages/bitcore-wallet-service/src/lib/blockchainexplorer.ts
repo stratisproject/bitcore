@@ -30,7 +30,15 @@ const PROVIDERS = {
     ltc: {
       livenet: 'https://api.bitpay.com',
       testnet: 'https://api.bitpay.com'
-    }
+    },
+    strax: {
+      livenet: 'http://localhost:3000',
+      testnet: 'http://localhost:3000'
+    },
+    crs: {
+      livenet: 'http://localhost:3000',
+      testnet: 'http://localhost:3000'
+    }    
   }
 };
 

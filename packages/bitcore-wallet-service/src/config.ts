@@ -6,7 +6,7 @@ const Config = () => {
   let defaultConfig = {
     basePath: '/bws/api',
     disableLogs: false,
-    port: 3232,
+    port: 3032,
 
     // Uncomment to make BWS a forking server
     // cluster: true,
@@ -26,15 +26,15 @@ const Config = () => {
 
     storageOpts: {
       mongoDb: {
-        uri: 'mongodb://localhost:27017/bws',
+        uri: 'mongodb://172.17.208.1:27017/bws',
         dbname: 'bws'
       }
     },
     messageBrokerOpts: {
       //  To use message broker server, uncomment this:
-      messageBrokerServer: {
-        url: 'http://localhost:3380'
-      }
+      // messageBrokerServer: {
+      //   url: 'http://localhost:3380'
+      // }
     },
     blockchainExplorerOpts: {
       btc: {
@@ -84,6 +84,22 @@ const Config = () => {
         },
         testnet: {
           url: 'https://api.bitcore.io'
+        }
+      },
+      strax: {
+        livenet: {
+          url: 'http://localhost:3000'
+        },
+        testnet: {
+          url: 'http://localhost:3000'
+        }
+      },
+      crs: {
+        livenet: {
+          url: 'http://localhost:3000'
+        },
+        testnet: {
+          url: 'http://localhost:3000'
         }
       },
       socketApiKey: 'socketApiKey'
@@ -194,10 +210,13 @@ const Config = () => {
 
   // Replace default values with bws.config.js' values, if present
   try {
+    console.log("Using config: " + configFilePath);
     const bwsConfig = require(configFilePath);
     defaultConfig = bwsConfig;
-  } catch {
-    logger.info('bws.config.js not found, using default configuration values');
+  } catch (e) {
+    logger.error(e);    
+    console.log(e);
+    logger.info('BWS_CONFIG_PATH bws.config.js not found, using default configuration values');
   }
   return defaultConfig;
 };
