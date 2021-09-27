@@ -23,4 +23,8 @@ export class CirrusChain extends BtcChain implements IChain {
     this.sizeEstimationMargin = config.s?.sizeEstimationMargin ?? 0.01;
     this.inputSizeEstimationMargin = config.btc?.inputSizeEstimationMargin ?? 2;
   }
+
+  isSingleAddress() {
+    return true;
+  }
 }
