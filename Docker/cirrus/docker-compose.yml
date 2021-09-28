@@ -5,6 +5,7 @@ services:
       image: bitcorestrax.azurecr.io/cirrus-chain
       ports:
       - 16179:16179
+      - 37223:37223
       restart: always
       deploy:
        resources:       

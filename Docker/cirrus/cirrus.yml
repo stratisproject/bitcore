@@ -1,0 +1,35 @@
+apiVersion: 2019-12-01
+location: westus
+name: cirrus-node
+properties:
+  containers:
+  - name: cirrus-chain
+    properties:
+      image: bitcorestrax.azurecr.io/cirrus-chain
+      resources:
+        requests:
+          cpu: 2
+          memoryInGb: 4
+      ports:
+      - port: 16179
+      - port: 37223
+  osType: Linux
+  ipAddress:
+    type: Public
+    ports:
+    - protocol: tcp
+      port: 16179
+    - protocol: tcp
+      port: 37223
+  volumes:
+  - name: cirrus-storage
+    azureFile:
+      shareName: cirrus
+      readOnly: false
+      storageAccountName: bitcorestratis
+      storageAccountKey: OG8QpckNOZLKeQ7beWpC/qz2XMzUgXnw+46/vHetl5P+NUCFKDTv+x/57vkWZ2oAhsTEzgmgZTf+AeBWMGdJIg==
+  imageRegistryCredentials: 
+  - server: bitcorestrax.azurecr.io
+    username: bitcorestrax
+    password: s7txk1wVYd2/ECQ+zIpsK2LIO8c/k1dW
+type: Microsoft.ContainerInstance/containerGroups
