@@ -22,3 +22,6 @@ Deployment of docker compose on Azure container instances
 - Add a context to docker with `docker context create aci [NAME] --region=[AZUREREGION]`
 - Use the context with `docker context use [NAME]`
 - Deploy the compose file with `docker compose -f [COMPOSEFILENAME] --project-name=[NAME] up`
+
+Or use the Azure yml (recommended because it saves credentials):
+- `az container create --resource-group Stratis_Public_BitCore_PROD --name cirrus-node --location westus --file cirrus.yml`
