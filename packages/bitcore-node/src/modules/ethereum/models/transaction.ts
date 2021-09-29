@@ -64,8 +64,7 @@ export class EthTransactionModel extends BaseTransaction<IEthTransaction> {
     this.collection.createIndex(
       { chain: 1, network: 1, 'abiType.params.0.value': 1, blockTimeNormalized: 1 },
       {
-        background: true,
-        partialFilterExpression: { chain: 'ETH', 'abiType.type': 'ERC20', 'abiType.name': 'transfer' }
+        background: true
       }
     );
     this.collection.createIndex(

@@ -39,10 +39,7 @@ export class CoinModel extends BaseModel<ICoin> {
     this.collection.createIndex(
       { address: 1, chain: 1, network: 1 },
       {
-        background: true,
-        partialFilterExpression: {
-          spentHeight: { $lt: 0 }
-        }
+        background: true
       }
     );
     this.collection.createIndex({ address: 1 }, { background: true });
@@ -51,15 +48,15 @@ export class CoinModel extends BaseModel<ICoin> {
     this.collection.createIndex({ chain: 1, network: 1, spentHeight: 1 }, { background: true });
     this.collection.createIndex(
       { wallets: 1, spentHeight: 1, value: 1, mintHeight: 1 },
-      { background: true, partialFilterExpression: { 'wallets.0': { $exists: true } } }
+      { background: true }
     );
     this.collection.createIndex(
       { wallets: 1, spentTxid: 1 },
-      { background: true, partialFilterExpression: { 'wallets.0': { $exists: true } } }
+      { background: true }
     );
     this.collection.createIndex(
       { wallets: 1, mintTxid: 1 },
-      { background: true, partialFilterExpression: { 'wallets.0': { $exists: true } } }
+      { background: true }
     );
   }
 
