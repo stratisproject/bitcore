@@ -18,7 +18,7 @@ services:
             context: ../
             dockerfile: Docker/Dockerfile
         container_name: bitcore-node-stratis
-        image: bitcorestrax.azurecr.io/bitcore-node-stratis
+        image: bitcorestrax.azurecr.io/bitcore-node
         depends_on:
         - database
         ports:
@@ -26,7 +26,7 @@ services:
         environment:
             - DB_HOST=localhost
             - DB_PORT=27017
-            - BITCORE_CONFIG_PATH=/config/bitcore.config.new.json
+            - BITCORE_CONFIG_PATH=/config/bitcore.config.json
         volumes:
           - config:/config
         restart: always
@@ -37,11 +37,8 @@ services:
                     cpus: '2' 
 
     bitcore-wallet-service-stratis:
-        build:
-            context: ../
-            dockerfile: Docker/bws.Dockerfile
         container_name: bitcore-wallet-service-stratis
-        image: bitcorestrax.azurecr.io/bitcore-wallet-service-stratis
+        image: bitcorestrax.azurecr.io/bws
         depends_on:
         - database
         - bitcore-node-stratis

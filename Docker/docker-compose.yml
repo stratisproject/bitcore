@@ -10,12 +10,12 @@ services:
         command: mongod
         restart: always
     
-    bitcore-strax-node:
+    bitcore-node-stratis:
         build:
             context: ../
             dockerfile: Docker/Dockerfile
         container_name: bitcore-strax
-        image: bitcorestrax.azurecr.io/bitcore-strax
+        image: bitcorestrax.azurecr.io/bitcore-node
         links:
         - database
         ports:
@@ -33,7 +33,7 @@ services:
             context: ../
             dockerfile: Docker/bws.Dockerfile
         container_name: bitcore-wallet-service-stratis
-        image: bitcorestrax.azurecr.io/bws-stratis
+        image: bitcorestrax.azurecr.io/bws
         links:
         - database
         - bitcore-strax-node

@@ -19,7 +19,7 @@ Ref https://docs.docker.com/cloud/aci-integration/#using-azure-file-share-as-vol
 Build docker container for cirrus/strax: `docker build -t bitcorestrax.azurecr.io/cirrus-chain . -f cirrus.Dockerfile`
 
 Deployment of docker compose on Azure container instances
-- Add a context to docker with `docker context create aci [NAME] --region=[AZUREREGION]`
+- Add a context to docker with `docker context create aci [NAME] --location=[AZUREREGION]`
 - Use the context with `docker context use [NAME]`
 - Deploy the compose file with `docker compose -f [COMPOSEFILENAME] --project-name=[NAME] up`
 
