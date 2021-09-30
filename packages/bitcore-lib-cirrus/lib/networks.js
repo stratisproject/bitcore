@@ -162,19 +162,16 @@ var livenet = get('livenet');
 addNetwork({
   name: 'testnet',
   alias: 'test',
-  pubkeyhash: 0x6f,
-  privatekey: 0xef,
-  scripthash: 0xc4,
+  pubkeyhash: 0x7F,
+  privatekey: 0xEF,
+  scripthash: 0x89,
   bech32prefix: 'tb',
-  xpubkey: 0x043587cf,
+  xpubkey: 0x043587CF,
   xprivkey: 0x04358394,
-  networkMagic: 0x0b110907,
-  port: 18333,
+  networkMagic: 0x7B352205,
+  port: 26179,
   dnsSeeds: [
-    'testnet-seed.bitcoin.petertodd.org',
-    'testnet-seed.bluematt.me',
-    'testnet-seed.alexykot.me',
-    'testnet-seed.bitcoin.schildbach.de'
+    'cirrustest1.stratisnetwork.com'
   ]
 });
 
