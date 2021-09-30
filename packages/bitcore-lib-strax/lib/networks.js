@@ -163,19 +163,17 @@ var livenet = get('livenet');
 addNetwork({
   name: 'testnet',
   alias: 'test',
-  pubkeyhash: 0x6f,
-  privatekey: 0xef,
-  scripthash: 0xc4,
+  pubkeyhash: 0x78,
+  privatekey: 0xF8,
+  scripthash: 0x7F,
   bech32prefix: 'tb',
-  xpubkey: 0x043587cf,
-  xprivkey: 0x04358394,
-  networkMagic: 0x0b110907,
-  port: 18333,
+  xpubkey: 0x0488b21e, // These are the same as StraxMain??
+  xprivkey: 0x0488ade4,
+  networkMagic: 0x54747258,
+  port: 27105,
   dnsSeeds: [
-    'testnet-seed.bitcoin.petertodd.org',
-    'testnet-seed.bluematt.me',
-    'testnet-seed.alexykot.me',
-    'testnet-seed.bitcoin.schildbach.de'
+    'testnet1.stratisnetwork.com',
+    'testnet2.stratisnetwork.com'
   ]
 });
 

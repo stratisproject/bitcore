@@ -31,7 +31,9 @@ export class StraxStateProvider extends StratisStateProvider {
         .addCursorFlag('noCursorTimeout', true)
         .toArray();
       if (locatorBlocks.length < 2) {
-        return ['ebe158d09325c470276619ebc5f7f87c98c0ed4b211c46a17a6457655811d082']; // Add STRAX genesis hash here
+        return network == 'mainnet' 
+          ? ['ebe158d09325c470276619ebc5f7f87c98c0ed4b211c46a17a6457655811d082'] // Add STRAX genesis hash here
+          : ['0000db68ff9e74fbaf7654bab4fa702c237318428fa9186055c243ddde6354ca'];
       }
       return locatorBlocks.map(block => block.hash);
     }
