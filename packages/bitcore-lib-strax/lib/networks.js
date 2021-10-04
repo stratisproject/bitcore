@@ -167,8 +167,8 @@ addNetwork({
   privatekey: 0xF8,
   scripthash: 0x7F,
   bech32prefix: 'tb',
-  xpubkey: 0x0488b21e, // These are the same as StraxMain??
-  xprivkey: 0x0488ade4,
+  xpubkey: 0x043587cf,
+  xprivkey: 0x04358394, // In the FN these are the same as StraxMain??
   networkMagic: 0x54747258,
   port: 27105,
   dnsSeeds: [

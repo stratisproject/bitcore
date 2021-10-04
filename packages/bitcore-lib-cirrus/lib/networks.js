@@ -143,8 +143,8 @@ addNetwork({
   privatekey: 0xEF,
   scripthash: 0x58,
   bech32prefix: 'tb',
-  xpubkey: 0x043587cf,
-  xprivkey: 0x04358394,
+  xpubkey: 0x0488b21e,
+  xprivkey: 0x0488ade4,
   networkMagic: 0xAC572352,
   port: 16179,
   dnsSeeds: [
