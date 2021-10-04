@@ -26,7 +26,7 @@ const Constants = Common.Constants,
 
 function v8network(bwsNetwork) {
   if (bwsNetwork == 'livenet') return 'mainnet';
-  if (bwsNetwork == 'testnet' && config.blockchainExplorerOpts.btc.testnet.regtestEnabled) {
+  if (bwsNetwork == 'testnet' && config.blockchainExplorerOpts?.btc?.testnet?.regtestEnabled) {
     return 'regtest';
   }
   return bwsNetwork;
