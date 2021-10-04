@@ -18,6 +18,17 @@ Ref https://docs.docker.com/cloud/aci-integration/#using-azure-file-share-as-vol
 
 Build docker container for cirrus/strax: `docker build -t bitcorestrax.azurecr.io/cirrus-chain . -f cirrus.Dockerfile`
 
+Build bws: `docker build -t bitcorestrax.azurecr.io/bws . -f Docker/bws.Dockerfile`
+Push bws: `docker push bitcorestrax.azurecr.io/bws`
+
+Build bitcore: `docker build -t bitcorestrax.azurecr.io/bitcore-node . -f Docker/bitcore.Dockerfile`
+Push bitcore: `docker push bitcorestrax.azurecr.io/bitcore-node`
+
+Deployment of docker compose on a docker host using SSH:
+- Configure an SSH key on the host, password access will not work
+- Add a context to docker with `docker context create [NAME] --docker "host=ssh://root@[IP]"`
+- Use the context with `docker context use [NAME]`
+
 Deployment of docker compose on Azure container instances
 - Add a context to docker with `docker context create aci [NAME] --location=[AZUREREGION]`
 - Use the context with `docker context use [NAME]`
