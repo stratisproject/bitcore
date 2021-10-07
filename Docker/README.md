@@ -28,6 +28,8 @@ Deployment of docker compose on a docker host using SSH:
 - Configure an SSH key on the host, password access will not work
 - Add a context to docker with `docker context create [NAME] --docker "host=ssh://root@[IP]"`
 - Use the context with `docker context use [NAME]`
+- Deploy the compose with `docker-compose -f testnet.docker-compose.yml up -d`
+- Follow the logs: `docker-compose -f testnet.docker-compose.yml logs --follow`
 
 Deployment of docker compose on Azure container instances
 - Add a context to docker with `docker context create aci [NAME] --location=[AZUREREGION]`
