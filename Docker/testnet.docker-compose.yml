@@ -3,8 +3,8 @@ services:
     database:
         image: mongo
         container_name: database
-        ports:
-        - 27017:27017
+        #ports:
+        #- 37255:27017 # Keep commented out otherwise docker will expose this publically
         volumes:
           - /root/data:/data/db
         command: mongod
