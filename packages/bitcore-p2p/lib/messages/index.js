@@ -59,6 +59,11 @@ Messages.prototype.parseBuffer = function(dataBuffer) {
     return;
   }
 
+  // 0 -> 4 magic num (4 - int)
+  // 4 -> 16 command (12)
+  // 16 -> 20 length of payload bytes (4 - uint)
+  // 20 -> 24 checksum (4 - uint)
+
   var command = dataBuffer.slice(4, 16).toString('ascii').replace(/\0+$/, '');
   var payload = dataBuffer.slice(24, messageLength);
   var checksum = dataBuffer.slice(20, 24);
