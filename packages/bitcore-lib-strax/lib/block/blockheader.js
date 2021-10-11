@@ -10,6 +10,7 @@ var JSUtil = require('../util/js');
 var $ = require('../util/preconditions');
 
 var GENESIS_BITS = 0x1d00ffff;
+const ExtendedHeaderBit = 268435456
 
 /**
  * Instantiate a BlockHeader from a Buffer, JSON object, or Object with
@@ -142,10 +143,26 @@ BlockHeader._fromBufferReader = function _fromBufferReader(br, extraByte = true)
   info.time = br.readUInt32LE();
   info.bits = br.readUInt32LE();
   info.nonce = br.readUInt32LE();
+
+  // Recent StraxTest blocks include smart contract information (!!)
+  if (BlockHeader.hasSmartContractFields(info.version)) {
+    info.hashStateRoot = br.read(32);
+    info.receiptRoot = br.read(32);
+
+    var bloomLengthByte = br.read(1);
+    var bloomLength = Buffer.from(bloomLengthByte).readUInt8() + 1;
+    info.logsBloom = br.read(bloomLength);
+  }
+
   if(extraByte)
     info.txCount = br.read(1); // Stratis adds an additional counter to the end of a header.
+
   return info;
 };
+
+BlockHeader.hasSmartContractFields = function(version) {
+  return (version & ExtendedHeaderBit) != 0;
+}
 
 /**
  * @param {BufferReader} - A BufferReader of the block header
