@@ -37,7 +37,7 @@ GetProvheadersMessage.prototype.setPayload = function(payload) {
   var parser = new BufferReader(payload);
   $.checkArgument(!parser.finished(), 'No data received in payload');
 
-  this.version = parser.readUInt32LE();
+  //this.version = parser.readUInt32LE();
   var startCount = Math.min(parser.readVarintNum(), 500);
 
   this.starts = [];
@@ -50,7 +50,7 @@ GetProvheadersMessage.prototype.setPayload = function(payload) {
 
 GetProvheadersMessage.prototype.getPayload = function() {
   var bw = new BufferWriter();
-  bw.writeUInt32LE(this.version);
+  //bw.writeUInt32LE(this.version);
   bw.writeVarintNum(this.starts.length);
   for (var i = 0; i < this.starts.length; i++) {
     bw.write(this.starts[i]);
