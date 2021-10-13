@@ -381,7 +381,9 @@ export class Key {
     let purpose = opts.n == 1 || this.use44forMultisig ? '44' : '48';
     var coinCode = '0';
 
-    if (opts.network == 'testnet' && Constants.UTXO_COINS.includes(opts.coin)) {
+    if (opts.network == 'testnet' && opts.coin == 'crs') {
+      coinCode = '400'; // (!!) NOTE: CirrusTest uses coinCode 400
+    } else if (opts.network == 'testnet' && Constants.UTXO_COINS.includes(opts.coin)) {
       coinCode = '1';
     } else if (opts.coin == 'bch') {
       if (this.use0forBCH) {
