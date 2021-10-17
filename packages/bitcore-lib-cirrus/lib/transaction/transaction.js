@@ -63,7 +63,8 @@ var DEFAULT_NLOCKTIME = 0;
 var MAX_BLOCK_SIZE = 1000000;
 
 // Minimum amount for an output for it not to be considered a dust output
-Transaction.DUST_AMOUNT = 546;
+// TODO Check Cirrus can have 0 dust amount
+Transaction.DUST_AMOUNT = 0;
 
 // Margin of error to allow fees in the vecinity of the expected value but doesn't allow a big difference
 Transaction.FEE_SECURITY_MARGIN = 150;
