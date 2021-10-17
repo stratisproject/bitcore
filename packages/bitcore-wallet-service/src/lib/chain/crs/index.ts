@@ -24,6 +24,15 @@ export class CirrusChain extends BtcChain implements IChain {
     this.inputSizeEstimationMargin = config.btc?.inputSizeEstimationMargin ?? 2;
   }
 
+  checkDust(output) {}
+
+  checkValidTxAmount(output): boolean {
+    if (!_.isNumber(output.amount) || _.isNaN(output.amount) || output.amount < 0) {
+      return false;
+    }
+    return true;
+  }
+
   isSingleAddress() {
     return true;
   }
