@@ -1,5 +1,6 @@
 import * as rlp from 'rlp'
 import BN from 'bn.js';
+import { Address } from 'bitcore-lib-cirrus';
 
 export interface ContractTxData {
   opCodeType: number,
@@ -31,9 +32,9 @@ type ParsedStringParam = {
   value: string
 };
 
-type Address = {
+type ContractAddress = {
   type: Prefix.Address,
-  value: Buffer
+  value: Address
 };
 
 type Bool = {
@@ -100,8 +101,8 @@ export const ULONG_MAXVALUE = new BN("18446744073709551615");
 export const UINT128_MAXVALUE = new BN("340282366920938463463374607431768211455");
 export const UINT256_MAXVALUE = new BN("115792089237316195423570985008687907853269984665640564039457584007913129639935");
 
-export type MethodParameter = Address | Bool | Byte | ByteArray | Char | String | Int | UInt | Long | ULong | UInt128 | UInt256
-type MethodParameterValue = number | boolean | string | Buffer | BN;
+export type MethodParameter = ContractAddress | Bool | Byte | ByteArray | Char | String | Int | UInt | Long | ULong | UInt128 | UInt256
+type MethodParameterValue = number | boolean | string | Buffer | BN | Address;
 /*
   Accepts the input call data and serializes it to a hex string.
 */
@@ -275,15 +276,8 @@ export const deserializeMethodParam = (methodParam: Buffer): MethodParameter => 
 
 export const deserializeStringValue = (param: ParsedStringParam): MethodParameterValue => {
   switch(+param.prefix) {
-    // Warning: Currently differs from the .NET implementation which uses a base58 address.
-    // Because we don't have access to an address type, we use a byte array to represent the address.
     case Prefix.Address: {
-      let buffer = Buffer.from(param.value, "hex");
-
-      if (buffer.length !== 20)
-        throw "Invalid address: length is not 20 bytes";
-
-      return buffer;
+      return new Address(param.value);
     }
     case Prefix.Bool: {
       // C# serializer for bool evaluates to "True" and "False" strings
@@ -359,7 +353,7 @@ export const deserializeStringValue = (param: ParsedStringParam): MethodParamete
 export const deserializePrimitiveValue = (type: number, primitiveBytes: Buffer): MethodParameterValue => {
   switch (type) {
     case Prefix.Address:
-      return primitiveBytes;
+      return new Address(primitiveBytes);
     case Prefix.Bool:
       return primitiveBytes.readUIntLE(0, 1) == 1 ? true : false;
     case Prefix.Byte:
@@ -386,7 +380,7 @@ export const deserializePrimitiveValue = (type: number, primitiveBytes: Buffer):
 export const serializePrimitiveValue = (parameter: MethodParameter): Buffer => {
   switch (parameter.type) {
     case Prefix.Address: // Should already be a buffer
-      return parameter.value;
+      return parameter.value.toStratisBuffer();
     case Prefix.Bool:
       return parameter.value ? Buffer.from([1]) : Buffer.from([0]);
     case Prefix.Byte:

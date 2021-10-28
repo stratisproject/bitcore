@@ -1,5 +1,6 @@
 import { BN } from 'bn.js';
 import { parse, serialize, Prefix, ContractTxData, OP_CREATECONTRACT, MethodParameter, OP_CALLCONTRACT, deserializeMethodParam, deserializeString, parseString, LONG_MAXVALUE, UINT_MAXVALUE, INT_MAXVALUE, ULONG_MAXVALUE, UINT128_MAXVALUE, UINT256_MAXVALUE } from '../src';
+import { Address } from 'bitcore-lib-cirrus';
 
 describe('deserialize', () => {
 
@@ -40,7 +41,7 @@ describe('deserialize', () => {
                 (ulong)ulong.MaxValue,
                 UInt128.MaxValue,
                 UInt256.MaxValue,
-                "0x95D34980095380851902ccd9A1Fb4C813C2cb639".HexToAddress()
+                "0x95D34980095380851902ccd9A1Fb4C813C2cb639".HexToAddress() // "tLaoqrq1hrMtrpt45895b1sA7WhoDfCpHZ" on CirrusTest or "CW86N7KVQzV9tv5UebAXabvGoaCQqH4oor" on CirrusMain
             };
     */
     let gasLimit = "ffffffffffffffff";
@@ -77,7 +78,7 @@ describe('deserialize', () => {
     expect(txData.methodParameters[10].type).toEqual(Prefix.UInt256);
     expect(txData.methodParameters[10].value).toEqual(new BN("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "hex", "le")); // UInt256.MaxValue
     expect(txData.methodParameters[11].type).toEqual(Prefix.Address);
-    expect(txData.methodParameters[11].value).toEqual(Buffer.from("95D34980095380851902ccd9A1Fb4C813C2cb639", "hex"));
+    expect(txData.methodParameters[11].value).toEqual(new Address("CW86N7KVQzV9tv5UebAXabvGoaCQqH4oor"));
   });  
 });
 
@@ -100,7 +101,7 @@ describe('serialize', () => {
                 (ulong)ulong.MaxValue,
                 UInt128.MaxValue,
                 UInt256.MaxValue,
-                "0x95D34980095380851902ccd9A1Fb4C813C2cb639".HexToAddress()
+                "0x95D34980095380851902ccd9A1Fb4C813C2cb639".HexToAddress() // "CW86N7KVQzV9tv5UebAXabvGoaCQqH4oor" CirrusMain
             };
     */
    
@@ -160,7 +161,7 @@ describe('serialize', () => {
         },
         {
           type: Prefix.Address,
-          value: Buffer.from("95D34980095380851902ccd9A1Fb4C813C2cb639", "hex")
+          value: new Address("CW86N7KVQzV9tv5UebAXabvGoaCQqH4oor")
         }
       ]
     } as ContractTxData;
@@ -181,6 +182,8 @@ describe('serialize', () => {
 
   it('should roundtrip objects correctly', () => {
 
+    expect(new Address("CW86N7KVQzV9tv5UebAXabvGoaCQqH4oor").toStratisBuffer()).toEqual(Buffer.from("95D34980095380851902ccd9A1Fb4C813C2cb639", "hex"));
+    
     let contractTxData = {
       opCodeType: OP_CALLCONTRACT,
       vmVersion: 1,
@@ -235,7 +238,8 @@ describe('serialize', () => {
         },
         {
           type: Prefix.Address,
-          value: Buffer.from("95D34980095380851902ccd9A1Fb4C813C2cb639", "hex")
+          value: new Address(Buffer.from("95D34980095380851902ccd9A1Fb4C813C2cb639", "hex"))
+          //value: new Address("CW86N7KVQzV9tv5UebAXabvGoaCQqH4oor")
         }
       ]
     } as ContractTxData;
@@ -426,14 +430,14 @@ describe('deserialize strings', () => {
 
   it('should deserialize an address to a methodparam', () => {
     let prefix = Prefix.Address;
-    let value = Buffer.alloc(20, 0xFF);
-    let stringData = `${prefix}#${value.toString('hex')}`;
+    let value = "CW86N7KVQzV9tv5UebAXabvGoaCQqH4oor";
+    let stringData = `${prefix}#${value}`;
 
     let methodParam = deserializeString(stringData);
 
     expect(methodParam).toEqual({
       type: prefix,
-      value: value
+      value: new Address(value)
     } as MethodParameter);
   });
 });

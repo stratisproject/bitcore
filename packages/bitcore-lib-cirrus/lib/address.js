@@ -586,6 +586,19 @@ Address.prototype.toBuffer = function() {
 };
 
 /**
+ * Will return a buffer representation of the address. Stratis encoding does not include the network bit prefix!
+ *
+ * @returns {Buffer} Bitcoin address buffer
+ */
+ Address.prototype.toStratisBuffer = function() {
+  if (this.isPayToWitnessPublicKeyHash() || this.isPayToWitnessScriptHash()) {
+    return Buffer.from(this.toString(), 'utf8')
+  }
+  var version = Buffer.from([this.network[this.type]]);
+  return Buffer.concat([this.hashBuffer]);
+};
+
+/**
  * @returns {Object} A plain object with the address information
  */
 Address.prototype.toObject = Address.prototype.toJSON = function toObject() {
