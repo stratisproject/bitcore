@@ -107,14 +107,14 @@ module.exports = {
     strax: [
       {
         name: 'normal',
-        nbBlocks: 2,
+        nbBlocks: 1,
         defaultValue: 10000
       }
     ],
     crs: [
       {
         name: 'normal',
-        nbBlocks: 2,
+        nbBlocks: 1,
         defaultValue: 10000
       }
     ]
