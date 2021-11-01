@@ -2,6 +2,19 @@ import * as rlp from 'rlp'
 import BN from 'bn.js';
 import { Address } from 'bitcore-lib-cirrus';
 
+export interface QrCodeParameter {
+  label: string;
+  value: string;
+}
+
+export interface QrCodePayload {
+  sender: string;
+  to: string;
+  amount: string;
+  methodName: string;
+  parameters: QrCodeParameter[];
+}
+
 export interface ContractTxData {
   opCodeType: number,
   vmVersion: number,
