@@ -31,6 +31,9 @@ Deployment of docker compose on a docker host using SSH:
 - Deploy the compose with `docker-compose -f testnet.docker-compose.yml up -d`
 - Follow the logs: `docker-compose -f testnet.docker-compose.yml logs --follow`
 
+To update containers:
+Just re-run `docker-compose -f testnet.docker-compose.yml up -d`
+
 Deployment of docker compose on Azure container instances
 - Add a context to docker with `docker context create aci [NAME] --location=[AZUREREGION]`
 - Use the context with `docker context use [NAME]`
