@@ -20,7 +20,7 @@ describe('deserialize', () => {
     expect(txData.opCodeType).toEqual(opcode);
     expect(txData.gasPrice).toEqual(new BN(gasprice, "hex", "le"));
     expect(txData.gasLimit).toEqual(new BN(gasLimit, "hex", "le"));
-    expect(txData.contractAddress).toEqual(Buffer.from(contractAddress, "hex"));
+    expect(txData.contractAddress).toEqual(new Address(Buffer.from(contractAddress, "hex")));
     expect(txData.methodName).toEqual("Execute");
   });
 
@@ -53,7 +53,7 @@ describe('deserialize', () => {
     expect(txData.opCodeType).toEqual(opcode);
     expect(txData.gasPrice.toBuffer("le", 8)).toEqual(new BN(1).toBuffer("le", 8));
     expect(txData.gasLimit).toEqual(new BN(gasLimit, "hex", "le"));
-    expect(txData.contractAddress).toEqual(Buffer.from(contractAddress, "hex"));
+    expect(txData.contractAddress).toEqual(new Address(Buffer.from(contractAddress, "hex")));
     expect(txData.methodName).toEqual("Execute");
     expect(txData.methodParameters[0].type).toEqual(Prefix.Bool);
     expect(txData.methodParameters[0].value).toEqual(true);
@@ -110,7 +110,7 @@ describe('serialize', () => {
     let contractTxData = {
       opCodeType: OP_CALLCONTRACT,
       vmVersion: 1,
-      contractAddress: Buffer.from("6400000000000000000000000000000000000000", "hex"),
+      contractAddress: new Address(Buffer.from("6400000000000000000000000000000000000000", "hex")),
       gasPrice: new BN("0100000000000000", "hex", "le"),
       gasLimit: new BN(gasLimit, "hex", "le"),
       methodName: "Execute",
@@ -187,7 +187,7 @@ describe('serialize', () => {
     let contractTxData = {
       opCodeType: OP_CALLCONTRACT,
       vmVersion: 1,
-      contractAddress: Buffer.from("6400000000000000000000000000000000000000", "hex"),
+      contractAddress: new Address(Buffer.from("6400000000000000000000000000000000000000", "hex")),
       gasPrice: new BN("0100000000000000", "hex", "le"),
       gasLimit: new BN("ffffffffffffffff", "hex", "le"),
       methodName: "Execute",

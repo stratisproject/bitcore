@@ -20,7 +20,7 @@ export interface ContractTxData {
   vmVersion: number,
   gasPrice: BN,
   gasLimit: BN,
-  contractAddress: Buffer,
+  contractAddress: Address,
   methodName: string,
   methodParameters: MethodParameter[]
 };
@@ -162,7 +162,7 @@ const serializeCallContract = (data: ContractTxData): string => {
   // For some reason we double-rlp encode the call data params and then the method name and params.
   let rlpEncodedCallData = rlp.encode(callDataBytes);
   
-  let finalBuffer = Buffer.concat([prefix, data.contractAddress, rlpEncodedCallData]);
+  let finalBuffer = Buffer.concat([prefix, data.contractAddress.toStratisBuffer(), rlpEncodedCallData]);
 
   return finalBuffer.toString('hex');
 }
@@ -236,7 +236,7 @@ export const parse = (hex: string): ContractTxData => {
     vmVersion: 1,
     gasPrice: new BN(gasPrice, "hex", "le"),
     gasLimit: new BN(gasLimit, "hex", "le"),
-    contractAddress: contractAddress,
+    contractAddress: new Address(contractAddress),
     methodName: methodName.toString("utf8"),
     methodParameters
   } as ContractTxData;
