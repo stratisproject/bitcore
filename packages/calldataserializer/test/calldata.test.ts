@@ -1,8 +1,47 @@
 import { BN } from 'bn.js';
-import { parse, serialize, Prefix, ContractTxData, OP_CREATECONTRACT, MethodParameter, OP_CALLCONTRACT, deserializeMethodParam, deserializeString, parseString, LONG_MAXVALUE, UINT_MAXVALUE, INT_MAXVALUE, ULONG_MAXVALUE, UINT128_MAXVALUE, UINT256_MAXVALUE } from '../src';
+import { parse, serialize, Prefix, ContractTxData, OP_CREATECONTRACT, MethodParameter, OP_CALLCONTRACT, deserializeMethodParam, deserializeString, parseString, LONG_MAXVALUE, UINT_MAXVALUE, INT_MAXVALUE, ULONG_MAXVALUE, UINT128_MAXVALUE, UINT256_MAXVALUE, QrCodePayload } from '../src';
 import { Address } from 'bitcore-lib-cirrus';
 
 describe('deserialize', () => {
+
+  it('should have the correct data for a call 2', () => {
+
+    let scData = {
+      to: "tSE2mpV4vBi7tiLUUAhyLNN8FooD3bYrag",
+      methodName: "Approve",
+      amount: "0",
+      parameters: [
+        {
+          label: "Address",
+          value: "9#tWBY7T75kB8jfwACbWX7jLjapSe7gPou6z"
+        },
+        {
+          label: "Current Amount",
+          value: "7#0"
+        },
+        {
+          label: "Amount",
+          value: "7#1"
+        }
+      ],
+      callbackUrl: "http://test.example.com"
+    } as QrCodePayload;
+
+    let contractTxData = {
+      vmVersion: 1,
+      opCodeType: OP_CALLCONTRACT, // TODO change this if CREATEs are possible
+      contractAddress: new Address(scData.to),
+      gasPrice: new BN(100), // TODO gas values need to be adjusted
+      gasLimit: new BN(250000),
+      methodName: scData.methodName,
+      methodParameters: scData.parameters.map(p => deserializeString(p.value))
+    } as ContractTxData;
+
+    let result = serialize(contractTxData).toUpperCase();
+
+    // Verified from FN
+    expect(result).toEqual("C101000000640000000000000090D0030000000000D3B619AE6691693B0EE605721CF76B0F746307CDF487417070726F7665ABEA9509FF1DD89963303B0DFBA7516C47D82F6D145A716D8907000000000000000089070100000000000000");
+  });
 
   it('should have the correct data for a call', () => {
     // vmversion 1, gasprice 1, gaslimit 18446744073709551615, method name
