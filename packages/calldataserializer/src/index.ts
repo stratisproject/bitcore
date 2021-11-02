@@ -154,8 +154,8 @@ const serializeCallContract = (data: ContractTxData): string => {
   let vmVersionBytes = Buffer.alloc(4);
   vmVersionBytes.writeInt32LE(data.vmVersion);
 
-  let gasPriceBytes = data.gasPrice.toBuffer("le", 8);
-  let gasLimitBytes = data.gasLimit.toBuffer("le", 8);
+  let gasPriceBytes = bnToLong(data.gasPrice);
+  let gasLimitBytes = bnToLong(data.gasLimit);
 
   let prefix = Buffer.concat([opCodeByte, vmVersionBytes, gasPriceBytes, gasLimitBytes])
 
@@ -171,6 +171,30 @@ const serializeCallContract = (data: ContractTxData): string => {
 
   return finalBuffer.toString('hex');
 }
+
+/******************************************
+ * BN to buffer implementations. 
+ * Because a lot of bitcore libs override BN's toBuffer prototype (because JS inheritance sucks)
+ * reimplement the functions here using BN.toArray, which doesn't seem to get overridden.
+ */
+
+const bnToLong = (num: BN): Buffer => {
+  return bnToPaddedBuffer(num, 8);
+}
+
+const bnToUInt128 = (num: BN): Buffer => {
+  return bnToPaddedBuffer(num, 16);
+}
+
+const bnToUInt256 = (num: BN): Buffer => {
+  return bnToPaddedBuffer(num, 32);
+}
+
+const bnToPaddedBuffer = (num: BN, pad: number): Buffer => {
+  return Buffer.from(num.toArray("le", pad));
+}
+
+/******************************************/
 
 const serializeCreateContract = () => {
 
@@ -419,13 +443,13 @@ export const serializePrimitiveValue = (parameter: MethodParameter): Buffer => {
       uint32.writeUInt32LE(parameter.value);
       return uint32;
     case Prefix.Long:
-      return parameter.value.toBuffer("le", 8);
+      return bnToLong(parameter.value);
     case Prefix.ULong:
-      return parameter.value.toBuffer("le", 8);
+      return bnToLong(parameter.value);
     case Prefix.UInt128:
-      return parameter.value.toBuffer("le", 16);
+      return bnToUInt128(parameter.value);
     case Prefix.UInt256:
-      return parameter.value.toBuffer("le", 32);
+      return bnToUInt256(parameter.value);
     default:
       throw "Invalid type!";      
   }
