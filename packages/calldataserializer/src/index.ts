@@ -13,6 +13,7 @@ export interface QrCodePayload {
   amount: string;
   methodName: string;
   parameters: QrCodeParameter[];
+  callbackUrl: string;
 }
 
 export interface ContractTxData {
@@ -126,6 +127,10 @@ export const serialize = (data: ContractTxData): string => {
 
   return "";
 }
+
+export const GetAddress = () => {
+  return Address;
+};
 
 const isCallContract = (opCodeType: number): boolean => {
   return opCodeType == OP_CALLCONTRACT;
