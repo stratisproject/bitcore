@@ -9,6 +9,8 @@ export const Defaults = {
         return 0.5e8;
       case 'doge':
         return 400e8;
+      case 'crs':
+        return 50 * 1e8; // TODO: Check this differently for CRS. Due to gas the fees can be quite high, up to 250k (gas limit max) * 10000 (gas price max) sats + 1 sat for the base tx fee
       default:
         return 1e8;
     }

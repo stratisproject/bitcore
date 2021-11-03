@@ -257,7 +257,7 @@ module.exports = {
     doge: 400 * 1e8,
     ltc: 0.05 * 1e8,
     strax: 1 * 1e8, // 1 strax
-    crs: 1 * 1e8 // 1 crs
+    crs: 50 * 1e8 // TODO: Check this differently for CRS. Due to gas the fees can be quite high, up to 250k (gas limit max) * 10000 (gas price max) sats + 1 sat for the base tx fee
   },
 
   // ETH
