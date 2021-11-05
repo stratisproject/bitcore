@@ -3,10 +3,13 @@ services:
     database:
         image: mongo
         container_name: database
-        #ports:
-        #- 37255:27017 # Keep commented out otherwise docker will expose this publically
+        ports:
+        - 27017:27017 # Keep commented out otherwise docker will expose this publically
         volumes:
           - /root/data:/data/db
+        environment:
+          - MONGO_INITDB_ROOT_USERNAME=bitcore
+          - MONGO_INITDB_ROOT_PASSWORD=j8Po3iEekf0cCU1JUgl7gTfVkjlmedNN
         command: mongod
         restart: always
     
@@ -20,8 +23,7 @@ services:
         volumes:
         - /root/config:/config
         environment:
-            - DB_HOST=database
-            - DB_PORT=27017
+            - DB_URL=mongodb://bitcore:j8Po3iEekf0cCU1JUgl7gTfVkjlmedNN@database:27017/bitcore?authSource=admin&socketTimeoutMS=3600000&noDelay=true
             - BITCORE_CONFIG_PATH=/config/bitcore.config.testnet.json
         restart: always
 
@@ -36,7 +38,6 @@ services:
         volumes:
         - /root/config:/config
         environment:
-            - DB_HOST=database
-            - DB_PORT=27017
+            - DB_URL=mongodb://bitcore:j8Po3iEekf0cCU1JUgl7gTfVkjlmedNN@database:27017
             - BWS_CONFIG_PATH=/config/bws.config.testnet.js
         restart: always
