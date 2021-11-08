@@ -1,4 +1,4 @@
 [submodule "packages/mobile-wallet"]
 	path = packages/mobile-wallet
 	url = https://github.com/stratisproject/mobile-wallet
-	branch = cirrus
+	branch = sc-tx
