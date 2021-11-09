@@ -517,7 +517,7 @@ export class BtcChain implements IChain {
     const feeOpts = { conservativeEstimation: opts.payProUrl ? true : false };
     const txpAmount = txp.getTotalAmount();
     const baseTxpSize = this.getEstimatedSize(txp, feeOpts);
-    const baseTxpFee = (baseTxpSize * txp.feePerKb) / 1000;
+    const baseTxpFee = (baseTxpSize * txp.feePerKb) / 1000 + (txp.gasPrice && txp.gasLimit) ? txp.gasPrice * txp.gasLimit : 0;
     const sizePerInput = this.getEstimatedSizeForSingleInput(txp, feeOpts);
     const feePerInput = (sizePerInput * txp.feePerKb) / 1000;
 

@@ -36,4 +36,19 @@ export class CirrusChain extends BtcChain implements IChain {
   isSingleAddress() {
     return true;
   }
+
+  getFee(server, wallet, opts) {
+    return new Promise(resolve => {
+      
+      server._getFeePerKb(wallet, opts, (err, feePerKb) => {
+
+        if (opts.gasPrice && opts.gasLimit) {
+          let fee = opts.gasPrice * opts.gasLimit;
+          return resolve({ feePerKb, gasPrice: opts.gasPrice, gasLimit: opts.gasLimit });
+        }
+
+        return resolve({ feePerKb });
+      });
+    });
+  }
 }
