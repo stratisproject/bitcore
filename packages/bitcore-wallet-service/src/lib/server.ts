@@ -2810,7 +2810,7 @@ export class WalletService {
                 // Check if tx already in blockchain
                 this._checkTxInBlockchain(txp, (err, isInBlockchain) => {
                   if (err) return cb(err);
-                  if (!isInBlockchain) return cb(broadcastErr || 'broadcast error');
+                  if (!isInBlockchain) return cb(broadcastErr || 'broadcast error: tx not in blockchain');
 
                   this._processBroadcast(
                     txp,
