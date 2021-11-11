@@ -6,12 +6,16 @@ import request from 'request';
 
 // Stratis chains prefer to use a REST API and not RPC
 
+export interface StratisBroadcastResponse {
+  transactionId: string;
+}
+
 export class StratisAPI {
   constructor(private host: string, private port: number) {}
 
-  sendTransaction(rawTx: string): Promise<string> {
+  sendTransaction(rawTx: string): Promise<StratisBroadcastResponse> {
 
-    return new Promise<string>((resolve, reject) => {
+    return new Promise<StratisBroadcastResponse>((resolve, reject) => {
       let requestOpts = { 
         method: 'POST',
         url: `http://${this.host}:${this.port}/api/Wallet/send-transaction`,
@@ -68,7 +72,8 @@ export class StratisStateProvider extends InternalStateProvider {
     const txids = new Array<string>();
     const rawTxs = typeof rawTx === 'string' ? [rawTx] : rawTx;
     for (const tx of rawTxs) {
-      const txid = await this.getAPI(chain, network).sendTransaction(tx);
+      const txData = await this.getAPI(chain, network).sendTransaction(tx);
+      const txid = txData.transactionId;
       txids.push(txid);
     }
     return txids.length === 1 ? txids[0] : txids;
