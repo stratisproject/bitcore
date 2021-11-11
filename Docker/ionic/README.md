@@ -6,7 +6,7 @@ The apk will be output to the `~/build` folder
 
 Even faster is to build on a remote machine. Mount the whole build folder to get the output to work:
 `docker context use OTHER_CONTEXT`
-`docker run -it -v /root/build:/app/packages/mobile-wallet/platforms/android/app/build ionic-android`
+`docker run -it -v /root/build:/app/packages/mobile-wallet/platforms/android/app/build ionic-build`
 
 OLD:
 
