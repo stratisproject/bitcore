@@ -11,3 +11,4 @@ cd /app/bitcore
 npm i --unsafe-perm
 cd /app/bitcore/packages/mobile-wallet
 npm run build:android
+cp -r /app/bitcore/packages/mobile-wallet/platforms/android/app/build/outputs/apk /output
