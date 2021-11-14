@@ -20,9 +20,12 @@ Build docker container for cirrus/strax: `docker build -t bitcorestrax.azurecr.i
 
 Build bws: `docker build -t bitcorestrax.azurecr.io/bws . -f Docker/bws.Dockerfile`
 Push bws: `docker push bitcorestrax.azurecr.io/bws`
+Everything: `docker context use default && docker build -t bitcorestrax.azurecr.io/bws . -f Docker/bws.Dockerfile && docker push bitcorestrax.azurecr.io/bws`
 
 Build bitcore: `docker build -t bitcorestrax.azurecr.io/bitcore-node . -f Docker/bitcore.Dockerfile`
 Push bitcore: `docker push bitcorestrax.azurecr.io/bitcore-node`
+Everything: `docker context use default && docker build -t bitcorestrax.azurecr.io/bitcore-node . -f Docker/bitcore.Dockerfile && docker push bitcorestrax.azurecr.io/bitcore-node`
+
 
 Deployment of docker compose on a docker host using SSH:
 - Configure an SSH key on the host, password access will not work
@@ -32,7 +35,7 @@ Deployment of docker compose on a docker host using SSH:
 - Follow the logs: `docker-compose -f testnet.docker-compose.yml logs --follow`
 
 To update containers:
-Just re-run `docker-compose -f testnet.docker-compose.yml up -d`
+Just re-run `docker context use bitcoretestnet && docker pull bitcorestrax.azurecr.io/bws && docker pull bitcorestrax.azurecr.io/bitcore-node && docker-compose -f testnet.docker-compose.yml up -d`
 
 Deployment of docker compose on Azure container instances
 - Add a context to docker with `docker context create aci [NAME] --location=[AZUREREGION]`
