@@ -24,6 +24,7 @@ RUN touch /root/.ssh/known_hosts
 # Add bitbuckets key
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 
+ADD google-services.json /app/google-services.json
 ADD build-android.sh /app/build-android.sh
 RUN chmod +x /app/build-android.sh
 
