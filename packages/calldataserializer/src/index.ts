@@ -13,7 +13,7 @@ export interface QrCodePayload {
   amount: string;
   method: string;
   parameters: QrCodeParameter[];
-  callbackUrl: string;
+  callback: string;
 }
 
 export interface ContractTxData {
