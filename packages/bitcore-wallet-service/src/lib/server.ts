@@ -2359,7 +2359,8 @@ export class WalletService {
                     destinationTag: opts.destinationTag,
                     invoiceID: opts.invoiceID,
                     signingMethod: opts.signingMethod,
-                    isTokenSwap: opts.isTokenSwap
+                    isTokenSwap: opts.isTokenSwap,
+                    contractData: opts.contractData
                   };
                   txp = TxProposal.create(txOpts);
                   next();

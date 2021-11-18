@@ -131,6 +131,17 @@ export class TxProposal {
   invoiceID?: string;
   lockUntilBlockHeight?: number;
   isTokenSwap?: boolean;
+  contractData?: {
+    sender: string;
+    to: string;
+    amount: string;
+    method: string;
+    parameters: {
+      label: string;
+      value: string;
+    }[];
+    callback: string;
+  };
 
   static create(opts) {
     opts = opts || {};
@@ -209,6 +220,9 @@ export class TxProposal {
     x.destinationTag = opts.destinationTag;
     x.invoiceID = opts.invoiceID;
 
+    // CRS
+    x.contractData = opts.contractData;
+
     return x;
   }
 
@@ -273,6 +287,9 @@ export class TxProposal {
     // XRP
     x.destinationTag = obj.destinationTag;
     x.invoiceID = obj.invoiceID;
+
+    // CRS
+    x.contractData = obj.contractData;
 
     if (x.status == 'broadcasted') {
       x.raw = obj.raw;
