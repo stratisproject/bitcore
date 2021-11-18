@@ -24,7 +24,7 @@ describe('deserialize', () => {
           value: "7#1"
         }
       ],
-      callbackUrl: "http://test.example.com"
+      callback: "http://test.example.com"
     } as QrCodePayload;
 
     let contractTxData = {
