@@ -11,7 +11,7 @@ export interface QrCodePayload {
   sender: string;
   to: string;
   amount: string;
-  methodName: string;
+  method: string;
   parameters: QrCodeParameter[];
   callbackUrl: string;
 }
