@@ -2735,6 +2735,38 @@ export class WalletService {
     });
   }
 
+  
+  /*
+    Make a fire-and-forget request to the callback
+  */
+  _callbackUrl(txp){
+    // CALLBACK URL
+    if (!txp.contractData || !txp.contractData.callback)
+      return;
+  
+    let callbackUrl = txp.contractData.callback;
+    
+    let body = {
+      walletAddress: txp.from,
+      transactionHash: txp.txid
+    };
+  
+    this.request.post(
+      callbackUrl,
+      {
+        body: body,
+        json: true // This will also set the header {'Content-Type': 'application/json'}
+      },
+      (err, data) => {
+        if (err) {
+          logger.error(`Callback to ${callbackUrl} failed: `, err);
+        } else {
+          logger.info(`Callback to ${callbackUrl} succeeded`);
+        }
+      }
+    )
+  }
+
   _processBroadcast(txp, opts, cb) {
     $.checkState(txp.txid, 'Failed state: txp.txid undefined at <_processBroadcast()>');
     opts = opts || {};
@@ -2818,7 +2850,13 @@ export class WalletService {
                     {
                       byThirdParty: true
                     },
-                    cb
+                    (err) => {
+                      if (err) return cb(err);
+                    
+                      this._callbackUrl(txp);
+  
+                      return cb(null, txp);
+                    }
                   );
                 });
               } else {
@@ -2829,6 +2867,9 @@ export class WalletService {
                   },
                   err => {
                     if (err) return cb(err);
+                    
+                    this._callbackUrl(txp);
+
                     return cb(null, txp);
                   }
                 );
