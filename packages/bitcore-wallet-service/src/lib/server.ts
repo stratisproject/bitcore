@@ -3518,6 +3518,7 @@ export class WalletService {
         }
       });
       tx.customData = proposal.customData;
+      tx.contractData = proposal.contractData;
 
       tx.createdOn = proposal.createdOn;
       if (opts.includeExtendedInfo) {
