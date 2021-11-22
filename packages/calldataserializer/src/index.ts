@@ -361,28 +361,28 @@ export const deserializeStringValue = (param: ParsedStringParam): MethodParamete
     }
     case Prefix.Long: {
       let bn = new BN(param.value);
-      if (bn > LONG_MAXVALUE)
+      if (bn.gt(LONG_MAXVALUE))
         throw "Long greater than long.MaxValue";
       
       return bn;
     }
     case Prefix.ULong: {
       let bn = new BN(param.value);
-      if (bn > ULONG_MAXVALUE)
+      if (bn.gt(ULONG_MAXVALUE))
         throw "ULong greater than ulong.MaxValue";
       
       return bn;
     }
     case Prefix.UInt128: {
       let bn = new BN(param.value);
-      if (bn > UINT128_MAXVALUE)
+      if (bn.gt(UINT128_MAXVALUE))
         throw "UInt128 greater than uint128.MaxValue";
       
       return bn;
     }
     case Prefix.UInt256: {
       let bn = new BN(param.value);
-      if (bn > UINT256_MAXVALUE)
+      if (bn.gt(UINT256_MAXVALUE))
         throw "UInt256 greater than uint256.MaxValue";
       
       return bn;
