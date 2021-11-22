@@ -8,7 +8,7 @@ describe('deserialize', () => {
 
     let scData = {
       to: "tSE2mpV4vBi7tiLUUAhyLNN8FooD3bYrag",
-      methodName: "Approve",
+      method: "Approve",
       amount: "0",
       parameters: [
         {
@@ -33,7 +33,7 @@ describe('deserialize', () => {
       contractAddress: new Address(scData.to),
       gasPrice: new BN(100), // TODO gas values need to be adjusted
       gasLimit: new BN(250000),
-      methodName: scData.methodName,
+      methodName: scData.method,
       methodParameters: scData.parameters.map(p => deserializeString(p.value))
     } as ContractTxData;
 
@@ -349,6 +349,15 @@ describe('deserialize strings', () => {
     } as MethodParameter);
   });
 
+  it('should not deserialize a number larger than int', () => {
+    let prefix = Prefix.Int;
+    let value = INT_MAXVALUE + 1; // int.MaxValue + 1
+    let stringData = `${prefix}#${value}`;
+
+    expect(() => deserializeString(stringData)).toThrow();
+  });
+
+
   it('should deserialize a uint param to a methodparam', () => {
     let prefix = Prefix.UInt;
     let value = UINT_MAXVALUE; // uint.MaxValue
@@ -360,6 +369,14 @@ describe('deserialize strings', () => {
       type: prefix,
       value: +value
     } as MethodParameter);
+  });
+
+  it('should not deserialize a number larger than uint', () => {
+    let prefix = Prefix.UInt;
+    let value = UINT_MAXVALUE + 1; // uint.MaxValue + 1
+    let stringData = `${prefix}#${value}`;
+
+    expect(() => deserializeString(stringData)).toThrow();
   });
 
   it('should deserialize a long param to a methodparam', () => {
@@ -375,6 +392,14 @@ describe('deserialize strings', () => {
     } as MethodParameter);
   });
 
+  it('should not deserialize a number larger than long', () => {
+    let prefix = Prefix.Long;
+    let value = LONG_MAXVALUE.add(new BN(1)); // long.MaxValue + 1
+    let stringData = `${prefix}#${value}`;
+
+    expect(() => deserializeString(stringData)).toThrow();
+  });
+
   it('should deserialize a ulong param to a methodparam', () => {
     let prefix = Prefix.ULong;
     let value = ULONG_MAXVALUE; // int.MaxValue
@@ -386,6 +411,14 @@ describe('deserialize strings', () => {
       type: prefix,
       value: value
     } as MethodParameter);
+  });
+
+  it('should not deserialize a number larger than ulong', () => {
+    let prefix = Prefix.ULong;
+    let value = ULONG_MAXVALUE.add(new BN(1)); // ulong.MaxValue + 1
+    let stringData = `${prefix}#${value}`;
+
+    expect(() => deserializeString(stringData)).toThrow();
   });
 
   it('should deserialize a uint128 param to a methodparam', () => {
@@ -401,6 +434,14 @@ describe('deserialize strings', () => {
     } as MethodParameter);
   });
 
+  it('should not deserialize a number larger than uint128', () => {
+    let prefix = Prefix.UInt128;
+    let value = UINT128_MAXVALUE.add(new BN(1)); // uint128.MaxValue + 1
+    let stringData = `${prefix}#${value}`;
+
+    expect(() => deserializeString(stringData)).toThrow();
+  });
+
   it('should deserialize a uint256 param to a methodparam', () => {
     let prefix = Prefix.UInt256;
     let value = UINT256_MAXVALUE; // int.MaxValue
@@ -412,6 +453,14 @@ describe('deserialize strings', () => {
       type: prefix,
       value: value
     } as MethodParameter);
+  });
+
+  it('should not deserialize a number larger than uint256', () => {
+    let prefix = Prefix.UInt256;
+    let value = UINT256_MAXVALUE.add(new BN(1)); // uint256.MaxValue + 1
+    let stringData = `${prefix}#${value}`;
+
+    expect(() => deserializeString(stringData)).toThrow();
   });
 
 
