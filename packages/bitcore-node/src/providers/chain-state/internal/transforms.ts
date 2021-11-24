@@ -44,6 +44,7 @@ export class ListTransactionsStream extends Transform {
               satoshis: -output.value,
               height: transaction.blockHeight,
               address: output.address,
+              script: output.script != null ? output.script.toString('hex') : null,
               outputIndex: output.mintIndex,
               blockTime: transaction.blockTimeNormalized
             }) + '\n'
@@ -103,6 +104,7 @@ export class ListTransactionsStream extends Transform {
               satoshis: output.value,
               height: transaction.blockHeight,
               address: output.address,
+              script: output.script != null ? output.script.toString('hex') : null,
               outputIndex: output.mintIndex,
               blockTime: transaction.blockTimeNormalized
             }) + '\n'
