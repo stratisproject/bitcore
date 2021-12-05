@@ -3204,4 +3204,19 @@ export class API extends EventEmitter {
       });
     });
   }
+
+  // /**
+  // * Callback a SOAP login URL.
+  // *
+  // * @param {string} opts.url
+  // * @param {string} opts.signedMessage
+  // */
+  callbackAuthURL(opts): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.request.post('/v1/cirrus/auth-callback', opts, (err, data) => {
+        if (err) return reject(err);
+        return resolve(data);
+      });
+    });
+  }
 }
