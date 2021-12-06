@@ -5045,6 +5045,29 @@ export class WalletService {
     });
   }
 
+  authCallbackURL(req): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const URL: string = req.callbackUrl;
+      this.request.post(
+        URL,
+        {
+          body: {
+            signature: req.signature,
+            publicKey: req.publicKey
+          },
+          json: true
+        },
+        (err, data) => {
+          if (err) {
+            return reject(err.body ? err.body : err);
+          } else {
+            return resolve(data);
+          }
+        }
+      );
+    });
+  }
+
   clearWalletCache(): Promise<boolean> {
     return new Promise(resolve => {
       this.storage.clearWalletCache(this.walletId, () => {

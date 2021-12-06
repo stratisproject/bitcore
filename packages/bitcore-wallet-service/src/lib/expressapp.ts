@@ -1506,6 +1506,19 @@ export class ExpressApp {
         });
     });
 
+    router.post('/v1/cirrus/auth-callback', (req, res) => {
+      getServerWithAuth(req, res, server => {
+        server
+          .authCallbackURL(req)
+          .then(response => {
+            res.json(response);
+          })
+          .catch(err => {
+            if (err) return returnError(err, res, req);
+          });
+      });
+    });
+
     // Set no-cache by default
     this.app.use((req, res, next) => {
       res.setHeader('Cache-Control', 'no-store');
