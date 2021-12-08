@@ -5047,14 +5047,16 @@ export class WalletService {
 
   authCallbackURL(req): Promise<any> {
     return new Promise((resolve, reject) => {
-      const URL: string = req.callbackUrl;
+      const URL: string = req.body.callbackUrl;
+      const body = {
+        signature: req.body.signature,
+        publicKey: req.body.publicKey
+      };
+
       this.request.post(
         URL,
         {
-          body: {
-            signature: req.signature,
-            publicKey: req.publicKey
-          },
+          body,
           json: true
         },
         (err, data) => {
