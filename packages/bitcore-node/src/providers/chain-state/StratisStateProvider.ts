@@ -34,9 +34,9 @@ export class StratisAPI {
 
   getEstimateSmartFee(_: number): Promise<number> {
 
-    // TODO determine sensible default?
+    // MinTxFee on Strax and Cirrus, units are BTC
     return new Promise<number>((resolve, _) => {
-        return resolve(10000);
+        return resolve(0.0001);
     });
   }
 }
@@ -61,7 +61,12 @@ export class StratisStateProvider extends InternalStateProvider {
     return CacheStorage.getGlobalOrRefresh(
       cacheKey,
       async () => {
-        return this.getAPI(chain, network).getEstimateSmartFee(Number(target));
+        let feerate = await this.getAPI(chain, network).getEstimateSmartFee(Number(target));
+    
+        return {
+          feerate,
+          blocks: target
+        };
       },
       5 * CacheStorage.Times.Minute
     );
