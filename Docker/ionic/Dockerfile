@@ -10,20 +10,6 @@ RUN apt-get install -y git build-essential bzip2 openssh-client python && \
 # Hack to ensure the Android SDK license is accepted
 RUN yes | $ANDROID_HOME/tools/bin/sdkmanager --update
 
-# Make ssh dir
-RUN mkdir /root/.ssh/
-
-# Copy over private key, and set permissions
-# Warning! Anyone who gets their hands on this image will be able
-# to retrieve this private key file from the corresponding image layer
-ADD id_rsa /root/.ssh/id_rsa
-
-# Create known_hosts
-RUN touch /root/.ssh/known_hosts
-
-# Add bitbuckets key
-RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
-
 ADD google-services.json /app/google-services.json
 ADD build-android.sh /app/build-android.sh
 RUN chmod +x /app/build-android.sh
