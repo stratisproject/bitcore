@@ -1,6 +1,6 @@
 #!/bin/sh
 
-git clone git@github.com:stratisproject/bitcore-stratis.git --recurse-submodules --single-branch --branch strax-cirrus /app/bitcore
+git clone https://github.com/stratisproject/bitcore-stratis.git --recurse-submodules --single-branch --branch strax-cirrus /app/bitcore
 cd /app/bitcore
 npm i --unsafe-perm
 cd /app/bitcore/packages/mobile-wallet
