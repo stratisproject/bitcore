@@ -1,10 +1,10 @@
 version: '3'
-services:  
-    bitcore-node:
-        container_name: bitcore-node
+services:
+    bitcore-node-sync:
+        container_name: bitcore-node-sync
         image: bitcorestrax.azurecr.io/bitcore-node
         ports:
-        - 3000:3000
+        - 4000:3000
         volumes:
         - /root/config:/config
         environment:
