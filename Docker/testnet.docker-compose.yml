@@ -23,7 +23,6 @@ services:
         volumes:
         - /root/config:/config
         environment:
-            - DB_URL=mongodb://bitcore:j8Po3iEekf0cCU1JUgl7gTfVkjlmedNN@database:27017/bitcore?authSource=admin&socketTimeoutMS=3600000&noDelay=true
             - BITCORE_CONFIG_PATH=/config/bitcore.config.testnet.json
         restart: always
 
@@ -38,6 +37,5 @@ services:
         volumes:
         - /root/config:/config
         environment:
-            - DB_URL=mongodb://bitcore:j8Po3iEekf0cCU1JUgl7gTfVkjlmedNN@database:27017
             - BWS_CONFIG_PATH=/config/bws.config.testnet.js
         restart: always
