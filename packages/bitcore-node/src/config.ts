@@ -14,17 +14,21 @@ function findConfig(): ConfigType | undefined {
     `../../../../${configFileName}`,
     `../../${configFileName}`
   ];
+
   const overrideConfig = argConfigPath || envConfigPath;
+
+  // Override config replaces all other config paths.
   if (overrideConfig) {
-    bitcoreConfigPaths.unshift(overrideConfig);
+    bitcoreConfigPaths = [overrideConfig];
   }
+
   // No config specified. Search home, bitcore and cur directory
   for (let path of bitcoreConfigPaths) {
     if (!foundConfig) {
       try {
         const expanded = path[0] === '~' ? path.replace('~', homedir()) : path;
         const bitcoreConfig = require(expanded) as { bitcoreNode: ConfigType };
-        foundConfig = bitcoreConfig.bitcoreNode;
+        foundConfig = bitcoreConfig;
       } catch (e) {
         foundConfig = undefined;
       }
@@ -33,33 +37,16 @@ function findConfig(): ConfigType | undefined {
   return foundConfig;
 }
 
-function setTrustedPeers(config: ConfigType): ConfigType {
-  for (let [chain, chainObj] of Object.entries(config)) {
-    for (let network of Object.keys(chainObj)) {
-      let env = process.env;
-      const envString = `TRUSTED_${chain.toUpperCase()}_${network.toUpperCase()}_PEER`;
-      if (env[envString]) {
-        let peers = config.chains[chain][network].trustedPeers || [];
-        peers.push({
-          host: env[envString],
-          port: env[`${envString}_PORT`]
-        });
-        config.chains[chain][network].trustedPeers = peers;
-      }
-    }
-  }
-  return config;
-}
 const Config = function(): ConfigType {
-  let config: ConfigType = {
+  let baseConfig: ConfigType = {
     maxPoolSize: 50,
     port: 3000,
-    dbUrl: process.env.DB_URL || '',
-    dbHost: process.env.DB_HOST || '127.0.0.1',
-    dbName: process.env.DB_NAME || 'bitcore',
-    dbPort: process.env.DB_PORT || '27017',
-    dbUser: process.env.DB_USER || '',
-    dbPass: process.env.DB_PASS || '',
+    dbUrl: '', // Note: overrides all other DB connection strings.
+    dbHost: '127.0.0.1',
+    dbName: 'bitcore',
+    dbPort: '27017',
+    dbUser: '',
+    dbPass: '',
     numWorkers: cpus().length,
     chains: {},
     modules: ['./bitcoin', './bitcoin-cash', './ethereum', './strax', './cirrus'],
@@ -85,27 +72,19 @@ const Config = function(): ConfigType {
     }
   };
 
+  // Search for a config file.
   let foundConfig = findConfig();
-  const mergeCopyArray = (objVal, srcVal) => (objVal instanceof Array ? srcVal : undefined);
-  config = _.mergeWith(config, foundConfig, mergeCopyArray);
-  if (!Object.keys(config.chains).length) {
-    Object.assign(config.chains, {
-      BTC: {
-        mainnet: {
-          chainSource: 'p2p',
-          trustedPeers: [{ host: '127.0.0.1', port: 8333 }],
-          rpc: {
-            host: '127.0.0.1',
-            port: 8332,
-            username: 'bitcoin',
-            password: 'bitcoin'
-          }
-        }
-      }
-    });
+
+  if (foundConfig == undefined) {
+    throw new Error("No config file defined!");
   }
-  config = setTrustedPeers(config);
-  return config;
+
+  // Merge the found config with the base config because often we only want to define the chains and DB URL in the config.
+  const mergeCopyArray = (objVal, srcVal) => (objVal instanceof Array ? srcVal : undefined);
+
+  baseConfig = _.mergeWith(baseConfig, foundConfig, mergeCopyArray);
+  
+  return baseConfig;
 };
 
 export default Config();
