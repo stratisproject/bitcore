@@ -1,0 +1,12 @@
+version: '3'
+services:  
+    bitcore-node:
+        container_name: bitcore-node
+        image: bitcorestrax.azurecr.io/bitcore-node
+        ports:
+        - 3000:3000
+        volumes:
+        - /root/config:/config
+        environment:
+            - BITCORE_CONFIG_PATH=/config/bitcore.config.prod.json
+        restart: always
