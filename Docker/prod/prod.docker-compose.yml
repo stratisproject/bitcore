@@ -10,8 +10,6 @@ services:
         environment:
             - BITCORE_CONFIG_PATH=/config/bitcore.config.prod.json
         restart: always
-        secrets:
-            - db_connection
 
     bws:
         container_name: bws
