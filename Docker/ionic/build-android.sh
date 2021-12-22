@@ -22,4 +22,4 @@ cp -r /app/bitcore/packages/mobile-wallet/platforms/android/app/build/outputs/ap
 
 # IF release, sign and zipalign
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /keys/stratiswallet.keystore -storepass ${2} -signedjar /output/apk/release/app-release-signed.apk /output/apk/release/app-release-unsigned.apk  stratiswallet
-$ANDROID_HOME/build-tools/27.0.0/zipalign -v 4 /output/apk/release/app-release-signed.apk /output/android-release-signed-aligned.apk
+$ANDROID_HOME/build-tools/27.0.0/zipalign -v 4 /output/apk/release/app-release-signed.apk /output/apk/release/android-release-signed-aligned.apk
