@@ -14,4 +14,4 @@ ADD google-services.json /app/google-services.json
 ADD build-android.sh /app/build-android.sh
 RUN chmod +x /app/build-android.sh
 
-CMD ["/app/build-android.sh"]
+ENTRYPOINT ["/app/build-android.sh"]
