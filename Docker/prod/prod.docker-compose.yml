@@ -17,7 +17,7 @@ services:
         depends_on:
         - bitcore-node
         ports:
-        - 80:3032
+        - 443:3032
         volumes:
         - /root/config:/config
         environment:
