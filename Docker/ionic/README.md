@@ -11,3 +11,6 @@ Even faster is to build on a remote machine. Mount the whole build folder to get
 Debugging builds
 For experimenting faster with builds you can open a shell session to the docker container and run things from within.
 `docker run -it -v /root/build:/output -v /root/.bitcore:/keys --entrypoint /bin/bash ionic-build`
+
+For release builds:
+`docker run -it -v /root/build:/output -v /root/.bitcore:/keys --entrypoint /app/build-android-release.sh ionic-build`

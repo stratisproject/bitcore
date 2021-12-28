@@ -11,7 +11,9 @@ RUN apt-get install -y git build-essential bzip2 openssh-client python && \
 RUN yes | $ANDROID_HOME/tools/bin/sdkmanager --update
 
 ADD google-services.json /app/google-services.json
-ADD build-android.sh /app/build-android.sh
-RUN chmod +x /app/build-android.sh
+ADD build-android-debug.sh /app/build-android-debug.sh
+ADD build-android-release.sh /app/build-android-release.sh
+RUN chmod +x /app/build-android-debug.sh
+RUN chmod +x /app/build-android-release.sh
 
-ENTRYPOINT ["/app/build-android.sh"]
+ENTRYPOINT ["/app/build-android-debug.sh"]
