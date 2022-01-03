@@ -11,14 +11,14 @@ export interface StratisBroadcastResponse {
 }
 
 export class StratisAPI {
-  constructor(private host: string, private port: number) {}
+  constructor(private host: string) {}
 
   sendTransaction(rawTx: string): Promise<StratisBroadcastResponse> {
 
     return new Promise<StratisBroadcastResponse>((resolve, reject) => {
       let requestOpts = { 
         method: 'POST',
-        url: `http://${this.host}:${this.port}/api/Wallet/send-transaction`,
+        url: `${this.host}/api/Wallet/send-transaction`,
         body: { hex: rawTx },
         json: true
       };
@@ -51,8 +51,8 @@ export class StratisStateProvider extends InternalStateProvider {
     if (!API_HOST) {
       throw new Error(`API not configured for ${chain} ${network}`);
     }
-    const { host, port } = API_HOST;
-    return new StratisAPI(host, port);
+    const { host } = API_HOST;
+    return new StratisAPI(host);
   }
 
   async getFee(params: GetEstimateSmartFeeParams) {
