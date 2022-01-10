@@ -9,7 +9,7 @@ export NODE_OPTIONS="--max-old-space-size=8192"
 echo "Running build: build:android (debug)"
 rm -rf /app/bitcore
 rm -rf /output/apk
-git clone https://github.com/stratisproject/bitcore-stratis.git --recurse-submodules --single-branch --branch strax-cirrus /app/bitcore
+git clone https://github.com/stratisproject/bitcore-stratis.git --recurse-submodules --single-branch --branch release/2.0.0 /app/bitcore
 cd /app/bitcore
 npm i --unsafe-perm
 cd /app/bitcore/packages/mobile-wallet
