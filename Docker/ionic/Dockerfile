@@ -10,7 +10,6 @@ RUN apt-get install -y git build-essential bzip2 openssh-client python && \
 # Hack to ensure the Android SDK license is accepted
 RUN yes | $ANDROID_HOME/tools/bin/sdkmanager --update
 
-ADD google-services.json /app/google-services.json
 ADD build-android-debug.sh /app/build-android-debug.sh
 ADD build-android-release.sh /app/build-android-release.sh
 RUN chmod +x /app/build-android-debug.sh
