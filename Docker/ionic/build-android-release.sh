@@ -19,7 +19,12 @@ cd /app/bitcore
 npm i --unsafe-perm
 cd /app/bitcore/packages/mobile-wallet
 npm run build:stratis:android-release
-cp -r /app/bitcore/packages/mobile-wallet/platforms/android/app/build/outputs/apk /output
+cp -r /app/bitcore/packages/mobile-wallet/platforms/android/app/build/outputs/bundle /output
 
-$ANDROID_HOME/build-tools/30.0.3/zipalign -v 4 /output/apk/release/app-release-unsigned.apk --out /output/apk/release/app-release-signed-aligned.apk /output/apk/release/android-release-unsigned-aligned.apk
-$ANDROID_HOME/build-tools/30.0.3/apksigner sign --ks /keys/stratiswallet.keystore --ks-key-alias stratiswallet /output/apk/release/android-release-unsigned-aligned.apk
+# The script produces an app bundle so we need use jarsigner to sign
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /keys/stratiswallet.keystore -storepass ${1} -signedjar /output/bundle/release/app-release-signed.aab /output/bundle/release/app-release.aab stratiswallet
+
+#/app/bitcore/packages/mobile-wallet/platforms/android/app/build/outputs/bundle/release/app-release.aab
+# Use these if outputting an APK
+#$ANDROID_SDK_ROOT/build-tools/30.0.3/zipalign -v 4 /output/apk/release/app-release-unsigned.apk --out /output/apk/release/app-release-signed-aligned.apk /output/apk/release/android-release-unsigned-aligned.apk
+#$ANDROID_SDK_ROOT/build-tools/30.0.3/apksigner sign --ks /keys/stratiswallet.keystore --ks-key-alias stratiswallet --ks-pass pass:{1} --out /bundle/release/app-release-signed.aab /bundle/release/app-release.aab
