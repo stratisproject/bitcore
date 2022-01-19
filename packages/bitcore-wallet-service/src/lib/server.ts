@@ -4169,6 +4169,10 @@ export class WalletService {
       }
     });
 
+    // Reset the address indexes to 0 before scanning. Otherwise, existing addresses will not be rescanned.
+    wallet.addressManager.changeAddressIndex = 0;
+    wallet.addressManager.receiveAddressIndex = 0;
+
     async.eachSeries(
       derivators,
       (derivator, next) => {
@@ -4236,7 +4240,7 @@ export class WalletService {
         this.storage.deregisterWallet(wallet.id, () => {
           this.scan(opts, scanFinished);
         });
-      }, 100);
+      }, 200); // Why is this on a delay?
 
       return cb(null, {
         started: true
