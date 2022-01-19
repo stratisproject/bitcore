@@ -69,8 +69,6 @@ ADD . .
 RUN npm run compile
 
 EXPOSE 3032
-WORKDIR /config
-COPY Docker/config/bitcore.config.json bitcore.config.json
 ENV BITCORE_CONFIG_PATH=/config/bitcore.config.json
 WORKDIR /bitcore/packages/bitcore-wallet-service
 ENTRYPOINT ["npm", "run", "bws"]
