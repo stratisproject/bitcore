@@ -4201,6 +4201,8 @@ export class WalletService {
         this.storage.fetchWallet(wallet.id, (err, wallet) => {
           if (err) return cb(err);
           wallet.scanStatus = error ? 'error' : 'success';
+          logger.error("Wallet scan error: ");
+          logger.error(error);
           this.storage.storeWallet(wallet, err => {
             return cb(error || err);
           });
