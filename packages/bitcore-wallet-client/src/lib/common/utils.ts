@@ -346,6 +346,10 @@ export class Utils {
           break;
       }
 
+      if (!!txp.opReturn) {
+        t.addData(txp.opReturn);
+      }
+
       if (txp.toAddress && txp.amount && !txp.outputs) {
         t.to(txp.toAddress, txp.amount);
       } else if (txp.outputs) {
@@ -375,14 +379,28 @@ export class Utils {
         var outputOrder = _.reject(txp.outputOrder, order => {
           return order >= t.outputs.length;
         });
-        $.checkState(
-          t.outputs.length == outputOrder.length,
-          'Failed state: t.ouputs.length == outputOrder.length at buildTx()'
-        );
+        if (!!txp.opReturn) {
+          $.checkState(
+            t.outputs.length == outputOrder.length + 1,
+            'Failed state: t.ouputs.length == outputOrder.length + 1 at buildTx()'
+          );
+        } else {
+          $.checkState(
+            t.outputs.length == outputOrder.length,
+            'Failed state: t.ouputs.length == outputOrder.length at buildTx()'
+          );
+        }
+        
         t.sortOutputs(outputs => {
-          return _.map(outputOrder, i => {
+          let txpOutputs = _.map(outputOrder, i => {
             return outputs[i];
           });
+
+          if (!!txp.opReturn) {
+            txpOutputs.push(t.outputs[t.outputs.length - 1]);
+          }
+
+          return txpOutputs;
         });
       }
 

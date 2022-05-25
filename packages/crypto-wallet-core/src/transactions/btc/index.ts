@@ -43,6 +43,9 @@ export class BTCTxProvider {
       return new this.lib.Transaction.UnspentOutput(btcUtxo);
     });
     let tx = new this.lib.Transaction().from(btcUtxos);
+    if (!!opReturn) {
+      tx.addData(opReturn);
+    }
     if (fee) {
       tx.fee(fee);
     }
@@ -51,9 +54,6 @@ export class BTCTxProvider {
     }
     if (change) {
       tx.change(change);
-    }
-    if (opReturn) {
-      tx.addData(opReturn);
     }
     for (const recipient of recipients) {
       tx.to(recipient.address, parseInt(recipient.amount));

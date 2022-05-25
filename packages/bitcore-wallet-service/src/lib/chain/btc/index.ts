@@ -375,6 +375,10 @@ export class BtcChain implements IChain {
       }
     });
 
+    if (!!txp.opReturn) {
+      t.addData(txp.opReturn);
+    }
+
     t.fee(txp.fee);
 
     if (txp.changeAddress) {
@@ -386,14 +390,29 @@ export class BtcChain implements IChain {
       const outputOrder = _.reject(txp.outputOrder, (order: number) => {
         return order >= t.outputs.length;
       });
-      $.checkState(
-        t.outputs.length == outputOrder.length,
-        'Failed state: t.outputs.length not equal to outputOrder.length at <getBitcoreTx()>'
-      );
+
+      if (!!txp.opReturn) {
+        $.checkState(
+          t.outputs.length == outputOrder.length + 1,
+          'Failed state: t.outputs.length not equal to outputOrder.length + 1 at <getBitcoreTx()>'
+        );
+      } else {
+        $.checkState(
+          t.outputs.length == outputOrder.length,
+          'Failed state: t.outputs.length not equal to outputOrder.length at <getBitcoreTx()>'
+        );
+      }
+
       t.sortOutputs(outputs => {
-        return _.map(outputOrder, i => {
+        let txpOutputs = _.map(outputOrder, i => {
           return outputs[i];
         });
+
+        if (!!txp.opReturn) {
+          txpOutputs.push(t.outputs[t.outputs.length - 1]);
+        }
+
+        return txpOutputs;
       });
     }
 
@@ -439,9 +458,12 @@ export class BtcChain implements IChain {
 
     try {
       const bitcoreTx = this.getBitcoreTx(txp);
+      logger.info('BitcoreTx' + bitcoreTx)
       bitcoreError = bitcoreTx.getSerializationError(serializationOpts);
+      logger.info('error' + bitcoreError)
       if (!bitcoreError) {
         txp.fee = bitcoreTx.getFee();
+        logger.info(txp.fee)
       }
     } catch (ex) {
       logger.warn('Error building Bitcore transaction', ex);
