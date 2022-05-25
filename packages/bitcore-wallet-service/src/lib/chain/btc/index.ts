@@ -458,12 +458,9 @@ export class BtcChain implements IChain {
 
     try {
       const bitcoreTx = this.getBitcoreTx(txp);
-      logger.info('BitcoreTx' + bitcoreTx)
       bitcoreError = bitcoreTx.getSerializationError(serializationOpts);
-      logger.info('error' + bitcoreError)
       if (!bitcoreError) {
         txp.fee = bitcoreTx.getFee();
-        logger.info(txp.fee)
       }
     } catch (ex) {
       logger.warn('Error building Bitcore transaction', ex);
