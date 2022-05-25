@@ -392,6 +392,8 @@ export class BtcChain implements IChain {
       });
 
       if (!!txp.opReturn) {
+        // If opReturn is used, validate that the transaction outputs length is equal to transaction proposal outputs + 1
+        // + 1 being the additional OP_RETURN output added to the transaction, not included in the transaction proposal
         $.checkState(
           t.outputs.length == outputOrder.length + 1,
           'Failed state: t.outputs.length not equal to outputOrder.length + 1 at <getBitcoreTx()>'
@@ -408,6 +410,7 @@ export class BtcChain implements IChain {
           return outputs[i];
         });
 
+        // If opReturn is used, push the last t(Transaction) output to the transaction proposal outputs
         if (!!txp.opReturn) {
           txpOutputs.push(t.outputs[t.outputs.length - 1]);
         }
