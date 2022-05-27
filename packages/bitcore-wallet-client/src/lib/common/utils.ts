@@ -346,10 +346,6 @@ export class Utils {
           break;
       }
 
-      if (!!txp.opReturn) {
-        t.addData(txp.opReturn);
-      }
-
       if (txp.toAddress && txp.amount && !txp.outputs) {
         t.to(txp.toAddress, txp.amount);
       } else if (txp.outputs) {
@@ -369,6 +365,10 @@ export class Utils {
             t.to(o.toAddress, o.amount);
           }
         });
+      }
+
+      if (!!txp.opReturn) {
+        t.addData(txp.opReturn);
       }
 
       t.fee(txp.fee);
