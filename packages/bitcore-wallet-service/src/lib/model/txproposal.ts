@@ -142,6 +142,7 @@ export class TxProposal {
     }[];
     callback: string;
   };
+  opReturn?: string;
 
   static create(opts) {
     opts = opts || {};
@@ -222,6 +223,7 @@ export class TxProposal {
 
     // CRS
     x.contractData = opts.contractData;
+    x.opReturn = opts.opReturn;
 
     return x;
   }
@@ -290,6 +292,7 @@ export class TxProposal {
 
     // CRS
     x.contractData = obj.contractData;
+    x.opReturn = obj.opReturn;
 
     if (x.status == 'broadcasted') {
       x.raw = obj.raw;

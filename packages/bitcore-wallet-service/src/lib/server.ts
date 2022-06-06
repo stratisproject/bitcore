@@ -2360,7 +2360,8 @@ export class WalletService {
                     invoiceID: opts.invoiceID,
                     signingMethod: opts.signingMethod,
                     isTokenSwap: opts.isTokenSwap,
-                    contractData: opts.contractData
+                    contractData: opts.contractData,
+                    opReturn: opts.opReturn
                   };
                   txp = TxProposal.create(txOpts);
                   next();
@@ -2735,7 +2736,6 @@ export class WalletService {
     });
   }
 
-  
   /*
     Make a fire-and-forget request to the callback
   */
@@ -2743,14 +2743,14 @@ export class WalletService {
     // CALLBACK URL
     if (!txp.contractData || !txp.contractData.callback)
       return;
-  
+
     let callbackUrl = txp.contractData.callback;
-    
+
     let body = {
       walletAddress: txp.from,
       transactionHash: txp.txid
     };
-  
+
     this.request.post(
       callbackUrl,
       {
@@ -2852,9 +2852,9 @@ export class WalletService {
                     },
                     (err) => {
                       if (err) return cb(err);
-                    
+
                       this._callbackUrl(txp);
-  
+
                       return cb(null, txp);
                     }
                   );
@@ -2867,7 +2867,7 @@ export class WalletService {
                   },
                   err => {
                     if (err) return cb(err);
-                    
+
                     this._callbackUrl(txp);
 
                     return cb(null, txp);
